@@ -8,21 +8,21 @@ import { AuthenticationService, CredentialsService } from '@app/auth';
 @Component({
   selector: 'app-shell',
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.scss']
+  styleUrls: ['./shell.component.scss'],
 })
 export class ShellComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private titleService: Title,
+    private authenticationService: AuthenticationService,
+    private credentialsService: CredentialsService,
+    private breakpoint: BreakpointObserver
+  ) {}
 
-  constructor(private router: Router,
-              private titleService: Title,
-              private authenticationService: AuthenticationService,
-              private credentialsService: CredentialsService,
-              private breakpoint: BreakpointObserver) { }
-
-  ngOnInit() { }
+  ngOnInit() {}
 
   logout() {
-    this.authenticationService.logout()
-      .subscribe(() => this.router.navigate(['/login'], { replaceUrl: true }));
+    this.authenticationService.logout().subscribe(() => this.router.navigate(['/login'], { replaceUrl: true }));
   }
 
   get username(): string | null {
