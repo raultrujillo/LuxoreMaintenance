@@ -29,13 +29,45 @@
       <nav>
         <mat-list>
           <mat-divider></mat-divider>
-          <a mat-list-item routerLink="/home" routerLinkActive="active" (click)="isMobile && sidenav.close()">
-            <span translate>Home</span>
+          <a mat-list-item routerLink="/MyProperties" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+            <mat-icon>view_list</mat-icon>
+            <span>Listado de propiedades</span>
           </a>
           <mat-divider></mat-divider>
           <a mat-list-item routerLink="/about" routerLinkActive="active" (click)="isMobile && sidenav.close()">
-            <span translate>About</span>
+            <mat-icon>add</mat-icon>
+            <span>Nueva propiedad</span>
           </a>
+          <mat-divider></mat-divider>
+        </mat-list>
+
+        <mat-list>
+          <mat-divider></mat-divider>
+          <mat-accordion>
+            <mat-expansion-panel style="box-shadow: none">
+              <mat-expansion-panel-header style="margin-left: -8px">
+                <mat-panel-title> <mat-icon>code</mat-icon>&nbsp;Catalogos </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list>
+                <mat-divider></mat-divider>
+                <a mat-list-item routerLink="/about" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+                  <mat-icon>add</mat-icon>
+                  <span>Estados</span>
+                </a>
+                <mat-divider></mat-divider>
+                <a mat-list-item routerLink="/about" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+                  <mat-icon>add</mat-icon>
+                  <span>Ciudades</span>
+                </a>
+                <mat-divider></mat-divider>
+                <a mat-list-item routerLink="/about" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+                  <mat-icon>add</mat-icon>
+                  <span>Colonias</span>
+                </a>
+                <mat-divider></mat-divider>
+              </mat-list>
+            </mat-expansion-panel>
+          </mat-accordion>
           <mat-divider></mat-divider>
         </mat-list>
       </nav>

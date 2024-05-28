@@ -22,7 +22,9 @@ export class ShellComponent implements OnInit {
   ngOnInit() {}
 
   logout() {
-    this.authenticationService.logout().subscribe(() => this.router.navigate(['/login'], { replaceUrl: true }));
+    debugger;
+    //this.authenticationService.logout().subscribe(() => this.router.navigate(['/'], { replaceUrl: true }));
+    this.router.navigate(['/login']);
   }
 
   get username(): string | null {
