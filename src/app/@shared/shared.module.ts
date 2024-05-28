@@ -41,9 +41,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { RouterModule } from '@angular/router';
+import { CatalogModule } from '@app/components/catalogs/CatalogModule';
 
 @NgModule({
-  imports: [FlexLayoutModule, MaterialModule, TranslateModule, CommonModule, RouterModule],
+  imports: [FlexLayoutModule, MaterialModule, TranslateModule, CommonModule, RouterModule, CatalogModule],
   declarations: [LoaderComponent, MyPropertiesComponent, ConfirmDialogComponent, AlertDialogComponent],
   exports: [LoaderComponent],
 })

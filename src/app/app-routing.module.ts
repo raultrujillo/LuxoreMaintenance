@@ -3,15 +3,49 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { Shell } from '@app/shell/shell.service';
 import { MyPropertiesComponent } from './components/my-properties/my-properties.component';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import { ColoniesComponent } from './components/catalogs/colonies/colonies.component';
+import { CitiesComponent } from './components/catalogs/cities/cities.component';
+import { PropertyTypesComponent } from './components/catalogs/property-types/property-types.component';
+import { AmenitiesComponent } from './components/catalogs/amenities/amenities.component';
 
 const routes: Routes = [
   Shell.childRoutes([{ path: 'about', loadChildren: () => import('./about/about.module').then((m) => m.AboutModule) }]),
-  // Shell.childRoutes([{ path: 'MyProperties', loadComponent: () => import('./components/my-properties/my-properties.component').then((m) => m.MyPropertiesComponent) }]),
+
   Shell.childRoutes([
     {
       path: 'MyProperties',
       component: MyPropertiesComponent,
       data: { title: marker('Lista de propiedades') },
+    },
+  ]),
+
+  Shell.childRoutes([
+    {
+      path: 'ciudades',
+      component: CitiesComponent,
+      data: { title: marker('Catalogo de ciudades') },
+    },
+  ]),
+  Shell.childRoutes([
+    {
+      path: 'tipo-propiedad',
+      component: PropertyTypesComponent,
+      data: { title: marker('Catalogo de tipo de propiedad') },
+    },
+  ]),
+  Shell.childRoutes([
+    {
+      path: 'amenidades',
+      component: AmenitiesComponent,
+      data: { title: marker('Catalogo de amenidades') },
+    },
+  ]),
+
+  Shell.childRoutes([
+    {
+      path: 'colonias',
+      component: ColoniesComponent,
+      data: { title: marker('Catalogo de ciudades') },
     },
   ]),
   // Fallback when no prior route is matched

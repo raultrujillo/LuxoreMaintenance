@@ -14,7 +14,7 @@ import * as jsonData from 'src/assets/data/properties.json';
   styleUrls: ['./my-properties.component.scss'],
 })
 export class MyPropertiesComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'image', 'title', 'published', 'actions'];
+  displayedColumns: string[] = ['id', 'title', 'published', 'actions'];
   dataSource!: MatTableDataSource<Property>;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;

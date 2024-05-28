@@ -50,19 +50,34 @@
               </mat-expansion-panel-header>
               <mat-list>
                 <mat-divider></mat-divider>
-                <a mat-list-item routerLink="/about" routerLinkActive="active" (click)="isMobile && sidenav.close()">
-                  <mat-icon>add</mat-icon>
-                  <span>Estados</span>
-                </a>
-                <mat-divider></mat-divider>
-                <a mat-list-item routerLink="/about" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+                <a mat-list-item routerLink="/ciudades" routerLinkActive="active" (click)="isMobile && sidenav.close()">
                   <mat-icon>add</mat-icon>
                   <span>Ciudades</span>
                 </a>
                 <mat-divider></mat-divider>
-                <a mat-list-item routerLink="/about" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+                <a mat-list-item routerLink="/colonias" routerLinkActive="active" (click)="isMobile && sidenav.close()">
                   <mat-icon>add</mat-icon>
                   <span>Colonias</span>
+                </a>
+                <mat-divider></mat-divider>
+                <a
+                  mat-list-item
+                  routerLink="/tipo-propiedad"
+                  routerLinkActive="active"
+                  (click)="isMobile && sidenav.close()"
+                >
+                  <mat-icon>add</mat-icon>
+                  <span>Tipo de propiedad</span>
+                </a>
+                <mat-divider></mat-divider>
+                <a
+                  mat-list-item
+                  routerLink="/amenidades"
+                  routerLinkActive="active"
+                  (click)="isMobile && sidenav.close()"
+                >
+                  <mat-icon>add</mat-icon>
+                  <span>Amenidades</span>
                 </a>
                 <mat-divider></mat-divider>
               </mat-list>
