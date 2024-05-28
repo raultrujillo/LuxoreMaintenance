@@ -15,6 +15,7 @@ import { HomeModule } from './home/home.module';
 import { ShellModule } from './shell/shell.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { CatalogModule } from './components/catalogs/CatalogModule';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { AppRoutingModule } from './app-routing.module';
     SharedModule,
     ShellModule,
     HomeModule,
+    CatalogModule,
   ],
   declarations: [AppComponent],
   providers: [

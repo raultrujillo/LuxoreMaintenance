@@ -4,7 +4,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Property } from '@app/models/app.models';
-import { AppService } from '@app/services/app.service';
 import { PropertyService } from '@app/services/property-service';
 import * as jsonData from 'src/assets/data/properties.json';
 
