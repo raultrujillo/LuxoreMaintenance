@@ -20,14 +20,17 @@ export class CitiesComponent implements OnInit {
   constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {
+    this.getCities();
+  }
+  getCities() {
     var lstCities = new Array<Cities>();
     let city = new Cities(1, 1, 'CDMX');
     lstCities.push(city);
-    city = new Cities(2, 1, 'PUEBLA');
+    city = new Cities(2, 2, 'comita');
     lstCities.push(city);
-    city = new Cities(3, 1, 'CHIAPAS');
+    city = new Cities(3, 3, 'Ecatepec');
     lstCities.push(city);
-    city = new Cities(4, 1, 'QUERETARO');
+    city = new Cities(4, 3, 'Chalco');
     lstCities.push(city);
 
     this.initDataSource(lstCities);
@@ -58,5 +61,38 @@ export class CitiesComponent implements OnInit {
     };
 
     const modalRef = this.modalService.open(CitiesModalComponent, ngbModalOptions);
+
+    modalRef.result.then(
+      (v) => {
+        this.getCities();
+      },
+      (r) => {
+        // Cancel :c
+      }
+    );
+  }
+
+  edit(city: any) {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'xl',
+      centered: false,
+      scrollable: true,
+      windowClass: 'pgdat-modal pgdat-two modal-container-lvl0',
+      backdropClass: 'backdrop-container-lvl0',
+    };
+
+    const modalRef = this.modalService.open(CitiesModalComponent, ngbModalOptions);
+    modalRef.componentInstance.objCity = city;
+
+    modalRef.result.then(
+      (v) => {
+        this.getCities();
+      },
+      (r) => {
+        // Cancel :c
+      }
+    );
   }
 }

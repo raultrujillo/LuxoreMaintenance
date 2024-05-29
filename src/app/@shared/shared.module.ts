@@ -9,10 +9,21 @@ import { MyPropertiesComponent } from '@app/components/my-properties/my-properti
 import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
-  imports: [FlexLayoutModule, MaterialModule, TranslateModule, CommonModule, RouterModule],
+  imports: [
+    FlexLayoutModule,
+    MaterialModule,
+    TranslateModule,
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+  ],
   declarations: [LoaderComponent, MyPropertiesComponent, ConfirmDialogComponent, AlertDialogComponent],
-  exports: [LoaderComponent],
+  exports: [LoaderComponent, FormsModule, ReactiveFormsModule, MaterialModule, RouterModule, CommonModule],
 })
 export class SharedModule {}

@@ -12,11 +12,59 @@
         ></button>
       </div>
       <div class="modal-body">
-        <p>Modal body text goes here.</p>
+        <form [formGroup]="FormObjet">
+          <div class="row text-start">
+            <div class="col-12">
+              <!-- Estado -->
+              <div class="form-group">
+                <label for="state" class="form-label">Estado:</label>
+                <select
+                  class="form-select"
+                  id="state"
+                  placeholder="io"
+                  formControlName="stateId"
+                  [ngModel]="objCity.id_state"
+                >
+                  <option [ngValue]="state.id" *ngFor="let state of lstStates">{{state.state}}</option>
+                </select>
+                <div class="text-danger">
+                  <div *ngIf="FormObjet.controls['stateId'].invalid">El estado es requerido</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Descripción -->
+          <div class="row mt-3 text-start">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="city" class="form-label">Ciudad:</label>
+                <textarea
+                  formControlName="city"
+                  id="city"
+                  [(ngModel)]="objCity.city"
+                  class="form-control"
+                  rows="1"
+                  placeholder="Ciudad"
+                  maxlength="50"
+                ></textarea>
+                <div class="text-danger">
+                  <div *ngIf="FormObjet.controls['city'].invalid">La ciudad es requerida.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">Guardar</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          (click)="activeModal.dismiss('Cross click')"
+        >
+          Cancelar
+        </button>
+        <button type="button" class="btn btn-primary" (click)="save()">Guardar</button>
       </div>
     </div>
   </div>

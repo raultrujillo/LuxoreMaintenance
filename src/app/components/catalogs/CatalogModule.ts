@@ -6,9 +6,12 @@ import { AmenitiesComponent } from './amenities/amenities.component';
 import { MaterialModule } from '@app/material.module';
 import { RouterModule } from '@angular/router';
 import { CitiesModalComponent } from './cities/modal/cities-modal.componet';
+import { FormsModule } from '@angular/forms';
+import { SharedModule } from '@app/@shared';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
-  imports: [MaterialModule, RouterModule],
+  imports: [SharedModule, NgSelectModule],
   declarations: [CitiesComponent, ColoniesComponent, PropertyTypesComponent, AmenitiesComponent, CitiesModalComponent],
   exports: [CitiesComponent, ColoniesComponent, PropertyTypesComponent, AmenitiesComponent, CitiesModalComponent],
 })
