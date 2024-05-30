@@ -9,33 +9,33 @@
     <!-- ID Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-      <td mat-cell *matCellDef="let city">{{ city.id }}</td>
+      <td mat-cell *matCellDef="let catalog">{{ catalog.id }}</td>
     </ng-container>
 
     <!-- Desc Column -->
-    <ng-container matColumnDef="city">
+    <ng-container matColumnDef="desc">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
-      <td mat-cell *matCellDef="let city">
-        <a [routerLink]="['/properties', city.id]" class="property-name">{{ city.city }}</a>
+      <td mat-cell *matCellDef="let catalog">
+        <a [routerLink]="['/properties', catalog.id]" class="property-name">{{ catalog.description }}</a>
       </td>
     </ng-container>
 
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
-      <td mat-cell *matCellDef="let city">
-        <button mat-icon-button color="primary" matTooltip="Editar ciudad" (click)="edit(city)">
+      <td mat-cell *matCellDef="let catalog">
+        <button mat-icon-button color="primary" matTooltip="Editar ciudad" (click)="edit(catalog)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="remove(city)" matTooltip="Eliminar" class="remove">
+        <!-- <button mat-icon-button color="warn" (click)="remove(catalog)" matTooltip="Eliminar" class="remove">
           <mat-icon>delete</mat-icon>
-        </button>
+        </button> -->
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let city; columns: displayedColumns"></tr>
+    <tr mat-row *matRowDef="let catalog; columns: displayedColumns"></tr>
   </table>
   <p *ngIf="dataSource?.data?.length === 0" class="py-5 mb-0 text-center">No data available</p>
 </div>
-<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+<mat-paginator (page)="onChangePage($event)" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>

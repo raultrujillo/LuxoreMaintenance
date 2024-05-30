@@ -1,11 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Cities } from '@app/models/cities.model';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { CitiesModalComponent } from './modal/cities-modal.componet';
 import { ToastService } from '@app/services/toast.service';
+import { Catalog, CatalogResponse } from '@app/models/catalog.model';
+import { CatalogService } from '@app/services/catalog.service';
+import { first } from 'rxjs';
+import * as jsonData from 'src/assets/data/cities.json';
 
 @Component({
   selector: 'app-cities',
@@ -13,38 +17,44 @@ import { ToastService } from '@app/services/toast.service';
   styleUrls: ['./cities.component.scss'],
 })
 export class CitiesComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'city', 'actions'];
-  dataSource!: MatTableDataSource<Cities>;
+  displayedColumns: string[] = ['id', 'desc', 'actions'];
+  dataSource: MatTableDataSource<Catalog> = new MatTableDataSource<Catalog>(new Array<Catalog>());
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
+  total: number = 0;
 
-  constructor(private modalService: NgbModal, private toast: ToastService) {}
+  catalogResponse: CatalogResponse = new CatalogResponse();
+  page: number = 0;
+  totalPage: number = 0;
+
+  constructor(private modalService: NgbModal, private toast: ToastService, private catalogService: CatalogService) {}
 
   ngOnInit(): void {
-    this.getCities();
+    this.GetCatalog();
   }
-  getCities() {
-    var lstCities = new Array<Cities>();
-    let city = new Cities(1, 1, 'CDMX');
-    lstCities.push(city);
-    city = new Cities(2, 2, 'comita');
-    lstCities.push(city);
-    city = new Cities(3, 3, 'Ecatepec');
-    lstCities.push(city);
-    city = new Cities(4, 3, 'Chalco');
-    lstCities.push(city);
 
-    this.initDataSource(lstCities);
+  GetCatalog() {
+    // this.catalogService.getCatalog().pipe(first()).subscribe(
+    //   res =>{
+    //     debugger
+    //     this.catalogResponse =  res;
+    //     this.paginator.length =  this.catalogResponse.total;
+    //     this.initDataSource(this.catalogResponse.listCatalogs);
+    //   });
+
+    this.catalogResponse = jsonData as CatalogResponse;
+
+    this.initDataSource(this.catalogResponse.listCatalogs);
   }
 
   public initDataSource(data: any) {
-    var lstProperties = new Array<Cities>();
+    var lstProperties = new Array<Catalog>();
     for (let index = 0; index < data.length; index++) {
       const element = data[index];
       lstProperties.push(element);
     }
-    this.dataSource = new MatTableDataSource<Cities>(lstProperties);
-    this.dataSource.paginator = this.paginator;
+    this.dataSource = new MatTableDataSource<Catalog>(lstProperties);
+    // this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
@@ -66,7 +76,7 @@ export class CitiesComponent implements OnInit {
     modalRef.result.then(
       (v) => {
         this.toast.succes('Se ha agregado la ciudad');
-        this.getCities();
+        this.GetCatalog();
       },
       (r) => {
         // Cancel :c
@@ -91,11 +101,22 @@ export class CitiesComponent implements OnInit {
     modalRef.result.then(
       (v) => {
         this.toast.succes('Se ha actualizado la ciudad');
-        this.getCities();
+        this.GetCatalog();
       },
       (r) => {
         // Cancel :c
       }
     );
+  }
+
+  onChangePage(data: PageEvent) {
+    debugger;
+    this.page = this.paginator.pageIndex;
+    this.totalPage = this.paginator.pageSize;
+    this.GetCatalog();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 }

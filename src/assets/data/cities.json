@@ -1,0 +1,33 @@
+{
+  "total": 5,
+  "listCatalogs": [
+    {
+      "id": 1,
+      "description": "Iztapalapa"
+    },
+    {
+      "id": 1,
+      "description": "Venistiano Carranza"
+    },
+    {
+      "id": 1,
+      "description": "Coyoacan"
+    },
+    {
+      "id": 1,
+      "description": "GAM"
+    },
+    {
+      "id": 2,
+      "description": "Ecatepec"
+    },
+    {
+      "id": 1,
+      "description": "Chalco"
+    },
+    {
+      "id": 3,
+      "description": "Comitan"
+    }
+  ]
+}
