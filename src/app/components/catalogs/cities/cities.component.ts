@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Cities } from '@app/models/cities.model';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { CitiesModalComponent } from './modal/cities-modal.componet';
+import { ToastService } from '@app/services/toast.service';
 
 @Component({
   selector: 'app-cities',
@@ -17,7 +18,7 @@ export class CitiesComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal, private toast: ToastService) {}
 
   ngOnInit(): void {
     this.getCities();
@@ -64,6 +65,7 @@ export class CitiesComponent implements OnInit {
 
     modalRef.result.then(
       (v) => {
+        this.toast.succes('Se ha agregado la ciudad');
         this.getCities();
       },
       (r) => {
@@ -88,6 +90,7 @@ export class CitiesComponent implements OnInit {
 
     modalRef.result.then(
       (v) => {
+        this.toast.succes('Se ha actualizado la ciudad');
         this.getCities();
       },
       (r) => {

@@ -16,6 +16,7 @@ import { ShellModule } from './shell/shell.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CatalogModule } from './components/catalogs/catalogModule';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { CatalogModule } from './components/catalogs/catalogModule';
     ShellModule,
     HomeModule,
     CatalogModule,
+    ToastrModule.forRoot(), // ToastrModule added
   ],
   declarations: [AppComponent],
   providers: [
