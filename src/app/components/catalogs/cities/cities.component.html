@@ -1,10 +1,25 @@
 <div #container class="table-wrapper">
-  <span class="float-end mx-4 my-4">
-    <button class="btn btn-primary hiddenText" (click)="add()">
-      <mat-icon class="pt-1">add</mat-icon>
-      <span>Nuevo registro</span>
-    </button>
-  </span>
+  <div class="row m-2">
+    <!-- Estado -->
+    <div class="col-md-6 col-xl-6 col-sm-12">
+      <div class="form-group">
+        <label for="state" class="form-label">Estado:</label>
+        <select class="form-select" id="state" placeholder="io" [ngModel]="idStateSelected" (change)="GetCatalog()">
+          <option [ngValue]="0">Todos</option>
+          <option [ngValue]="state.id" *ngFor="let state of lstStates">{{ state.description }}</option>
+        </select>
+      </div>
+    </div>
+    <!-- btn agregar -->
+    <div class="col-md-6 col-xl-6 col-sm-12">
+      <span class="float-end mx-4 my-4">
+        <button class="btn btn-primary hiddenText" (click)="add()">
+          <mat-icon class="pt-1">add</mat-icon>
+          <span>Nuevo registro</span>
+        </button>
+      </span>
+    </div>
+  </div>
   <table mat-table [dataSource]="dataSource" matSort class="w-100">
     <!-- ID Column -->
     <ng-container matColumnDef="id">

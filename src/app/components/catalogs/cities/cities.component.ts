@@ -27,10 +27,25 @@ export class CitiesComponent implements OnInit {
   page: number = 0;
   totalPage: number = 0;
 
+  //states
+  lstStates: Catalog[] = new Array<Catalog>();
+  idStateSelected: number = -1;
+
   constructor(private modalService: NgbModal, private toast: ToastService, private catalogService: CatalogService) {}
 
   ngOnInit(): void {
+    this.getStates();
     this.GetCatalog();
+  }
+
+  //catlaogs
+  getStates() {
+    let x = new Catalog(1, 0, 'CDMX');
+    this.lstStates.push(x);
+    x = new Catalog(2, 0, 'Chiapas');
+    this.lstStates.push(x);
+    x = new Catalog(3, 0, 'Estado de mexico');
+    this.lstStates.push(x);
   }
 
   GetCatalog() {
