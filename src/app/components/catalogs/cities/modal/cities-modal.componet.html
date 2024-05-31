@@ -23,7 +23,7 @@
                   id="state"
                   placeholder="io"
                   formControlName="stateId"
-                  [ngModel]="objCity.id_state"
+                  [(ngModel)]="objCity.id_state"
                 >
                   <option [ngValue]="state.id" *ngFor="let state of lstStates">{{state.state}}</option>
                 </select>
