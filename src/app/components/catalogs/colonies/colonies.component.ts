@@ -8,6 +8,7 @@ import { ToastService } from '@app/services/toast.service';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { CitiesModalComponent } from '../cities/modal/cities-modal.componet';
 import * as jsonData from 'src/assets/data/colonies.json';
+import { ColoniesModalComponent } from './modal/colonies-modal.componet';
 @Component({
   selector: 'app-colonies',
   templateUrl: './colonies.component.html',
@@ -41,26 +42,12 @@ export class ColoniesComponent implements OnInit {
   }
 
   //catlaogs
-  getStates() {
-    let x = new Catalog(1, 0, 'CDMX');
-    this.lstStates.push(x);
-    x = new Catalog(2, 0, 'Chiapas');
-    this.lstStates.push(x);
-    x = new Catalog(3, 0, 'Estado de mexico');
-    this.lstStates.push(x);
-  }
+  getStates() {}
 
-  getCities() {
-    let x = new Catalog(1, 1, 'Iztapalapa');
-    this.lstCities.push(x);
-    x = new Catalog(2, 2, 'Cominta');
-    this.lstCities.push(x);
-    x = new Catalog(3, 3, 'Ecatepec');
-    this.lstCities.push(x);
-  }
+  getCities() {}
 
   getCitiesT() {
-    this.lstCities = this.lstCities.filter((x) => x.idFather == this.idStateSelected);
+    this.lstCities = this.lstCities.filter((x) => x.idCity == this.idStateSelected);
   }
 
   GetCatalog() {
@@ -75,7 +62,7 @@ export class ColoniesComponent implements OnInit {
     this.catalogResponse = jsonData as CatalogResponse;
 
     this.idCitySelected;
-    this.initDataSource(this.catalogResponse.listCatalogs);
+    this.initDataSource(this.catalogResponse.list);
   }
 
   public initDataSource(data: any) {
@@ -102,7 +89,7 @@ export class ColoniesComponent implements OnInit {
       backdropClass: 'backdrop-container-lvl0',
     };
 
-    const modalRef = this.modalService.open(CitiesModalComponent, ngbModalOptions);
+    const modalRef = this.modalService.open(ColoniesModalComponent, ngbModalOptions);
 
     modalRef.result.then(
       (v) => {
@@ -115,7 +102,7 @@ export class ColoniesComponent implements OnInit {
     );
   }
 
-  edit(city: any) {
+  edit(colony: any) {
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
@@ -126,8 +113,8 @@ export class ColoniesComponent implements OnInit {
       backdropClass: 'backdrop-container-lvl0',
     };
 
-    const modalRef = this.modalService.open(CitiesModalComponent, ngbModalOptions);
-    modalRef.componentInstance.objCity = city;
+    const modalRef = this.modalService.open(ColoniesModalComponent, ngbModalOptions);
+    modalRef.componentInstance.objCatalog = colony;
 
     modalRef.result.then(
       (v) => {

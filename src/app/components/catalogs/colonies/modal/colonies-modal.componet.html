@@ -15,7 +15,6 @@
         <form [formGroup]="FormObjet">
           <div class="row text-start">
             <div class="col-12">
-              {{isUpadte}}
               <!-- Estado -->
               <div class="form-group">
                 <label for="state" class="form-label">Estado:</label>
@@ -23,13 +22,32 @@
                   class="form-select"
                   id="state"
                   placeholder="io"
-                  formControlName="idState"
-                  [(ngModel)]="objCatalog.idState"
+                  formControlName="idFather"
+                  [(ngModel)]="idStateSelected"
                 >
+                  <option [ngValue]="0">Todos</option>
                   <option [ngValue]="state.id" *ngFor="let state of lstStates">{{state.description}}</option>
                 </select>
                 <div class="text-danger">
-                  <div *ngIf="FormObjet.controls['idState'].invalid">El estado es requerido</div>
+                  <div *ngIf="FormObjet.controls['idFather'].invalid">El estado es requerido</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <!-- Estado -->
+              <div class="form-group">
+                <label for="state" class="form-label">Ciudad:</label>
+                <select
+                  class="form-select"
+                  id="state"
+                  placeholder="io"
+                  formControlName="idCity"
+                  [(ngModel)]="objCatalog.idCity"
+                >
+                  <option [ngValue]="city.id" *ngFor="let city of lstCities">{{city.description}}</option>
+                </select>
+                <div class="text-danger">
+                  <div *ngIf="FormObjet.controls['idCity'].invalid">El estado es requerido</div>
                 </div>
               </div>
             </div>
@@ -38,18 +56,18 @@
           <div class="row mt-3 text-start">
             <div class="col-12">
               <div class="form-group">
-                <label for="city" class="form-label">Ciudad:</label>
+                <label for="city" class="form-label">Colonia:</label>
                 <textarea
                   formControlName="description"
                   id="city"
                   [(ngModel)]="objCatalog.description"
                   class="form-control"
                   rows="1"
-                  placeholder="Ciudad"
+                  placeholder="Colonia"
                   maxlength="50"
                 ></textarea>
                 <div class="text-danger">
-                  <div *ngIf="FormObjet.controls['description'].invalid">La ciudad es requerida.</div>
+                  <div *ngIf="FormObjet.controls['description'].invalid">La colonia es requerida.</div>
                 </div>
               </div>
             </div>

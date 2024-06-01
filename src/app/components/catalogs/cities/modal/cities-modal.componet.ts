@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Catalog, CityRequest } from '@app/models/catalog.model';
 import { Cities } from '@app/models/cities.model';
 import { States } from '@app/models/states.model';
+import { CatalogService } from '@app/services/catalog.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription, elementAt, first } from 'rxjs';
 
 @Component({
   selector: 'app-cities-modal',
@@ -12,37 +15,85 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class CitiesModalComponent {
   //form
   FormObjet!: FormGroup;
-
-  stateSelected: number = 0;
   city: string = '';
 
-  public objCity: Cities = new Cities();
+  public objCatalog: CityRequest = new CityRequest();
 
-  lstStates: States[] = new Array<States>();
-  constructor(public activeModal: NgbActiveModal, public formBuilder: FormBuilder) {
+  //states
+  lstStates: Catalog[] = new Array<Catalog>();
+  idStateSelected: number = 1;
+
+  isUpadte: boolean = false;
+
+  subscriptions = new Subscription();
+  constructor(
+    public activeModal: NgbActiveModal,
+    public formBuilder: FormBuilder,
+    private catalogService: CatalogService
+  ) {
     this.getStates();
     this.nuevoForm();
   }
 
   getStates() {
-    let x = new States(1, 'CDMX');
-    this.lstStates.push(x);
-    x = new States(2, 'Chiapas');
-    this.lstStates.push(x);
-    x = new States(3, 'Estado de mexico');
-    this.lstStates.push(x);
+    this.subscriptions.add(
+      this.catalogService
+        .getCatalog('states')
+        .pipe(first())
+        .subscribe({
+          next: (res) => {
+            this.lstStates = res;
+          },
+          error: (e) => {},
+        })
+    );
   }
 
   save() {
     if (this.FormObjet.invalid) {
       return;
     }
-    this.activeModal.close();
+
+    if (this.isUpadte) {
+      this.update();
+    } else {
+      this.add();
+    }
+  }
+
+  private add() {
+    this.subscriptions.add(
+      this.catalogService
+        .addCity(this.objCatalog)
+        .pipe(first())
+        .subscribe({
+          next: (res) => {
+            this.objCatalog;
+            this.activeModal.close();
+          },
+          error: (e) => {},
+        })
+    );
+  }
+
+  private update() {
+    this.subscriptions.add(
+      this.catalogService
+        .update(this.objCatalog)
+        .pipe(first())
+        .subscribe({
+          next: (res) => {
+            this.objCatalog;
+            this.activeModal.close();
+          },
+          error: (e) => {},
+        })
+    );
   }
 
   private nuevoForm() {
     this.FormObjet = this.formBuilder.group({
-      city: [
+      description: [
         '',
         [
           Validators.required,
@@ -50,7 +101,7 @@ export class CitiesModalComponent {
           Validators.maxLength(500),
         ],
       ],
-      stateId: ['', [Validators.required, Validators.min(1)]],
+      idState: ['', [Validators.required, Validators.min(1)]],
     });
   }
 }

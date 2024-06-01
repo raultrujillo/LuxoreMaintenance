@@ -4,8 +4,13 @@
     <div class="col-md-6 col-xl-6 col-sm-12">
       <div class="form-group">
         <label for="state" class="form-label">Estado:</label>
-        <select class="form-select" id="state" placeholder="io" [(ngModel)]="idStateSelected" (change)="GetCatalog()">
-          <option [ngValue]="0">Todos</option>
+        <select
+          class="form-select"
+          id="state"
+          placeholder="io"
+          [(ngModel)]="idStateSelected"
+          (change)="onChangeState()"
+        >
           <option [ngValue]="state.id" *ngFor="let state of lstStates">{{ state.description }}</option>
         </select>
       </div>

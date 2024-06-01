@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,9 +6,9 @@ import { Cities } from '@app/models/cities.model';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { CitiesModalComponent } from './modal/cities-modal.componet';
 import { ToastService } from '@app/services/toast.service';
-import { Catalog, CatalogResponse } from '@app/models/catalog.model';
+import { Catalog, CatalogResponse, CityRequest } from '@app/models/catalog.model';
 import { CatalogService } from '@app/services/catalog.service';
-import { first } from 'rxjs';
+import { Subscription, first } from 'rxjs';
 import * as jsonData from 'src/assets/data/cities.json';
 
 @Component({
@@ -16,7 +16,7 @@ import * as jsonData from 'src/assets/data/cities.json';
   templateUrl: './cities.component.html',
   styleUrls: ['./cities.component.scss'],
 })
-export class CitiesComponent implements OnInit {
+export class CitiesComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['id', 'desc', 'actions'];
   dataSource: MatTableDataSource<Catalog> = new MatTableDataSource<Catalog>(new Array<Catalog>());
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -25,11 +25,16 @@ export class CitiesComponent implements OnInit {
 
   catalogResponse: CatalogResponse = new CatalogResponse();
   page: number = 0;
-  totalPage: number = 0;
+  totalPage: number = 5;
 
   //states
   lstStates: Catalog[] = new Array<Catalog>();
-  idStateSelected: number = -1;
+  idStateSelected: number = 1;
+
+  subscriptions = new Subscription();
+
+  //request
+  catalogRequest: CityRequest = new CityRequest();
 
   constructor(private modalService: NgbModal, private toast: ToastService, private catalogService: CatalogService) {}
 
@@ -38,34 +43,52 @@ export class CitiesComponent implements OnInit {
     this.GetCatalog();
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
   //catlaogs
   getStates() {
-    let x = new Catalog(1, 0, 'CDMX');
-    this.lstStates.push(x);
-    x = new Catalog(2, 0, 'Chiapas');
-    this.lstStates.push(x);
-    x = new Catalog(3, 0, 'Estado de mexico');
-    this.lstStates.push(x);
+    this.subscriptions.add(
+      this.catalogService
+        .getCatalog('states')
+        .pipe(first())
+        .subscribe({
+          next: (res) => {
+            this.lstStates = res;
+          },
+          error: (e) => {},
+        })
+    );
   }
 
   GetCatalog() {
-    // this.catalogService.getCatalog().pipe(first()).subscribe(
-    //   res =>{
-    //     debugger
-    //     this.catalogResponse =  res;
-    //     this.paginator.length =  this.catalogResponse.total;
-    //     this.initDataSource(this.catalogResponse.listCatalogs);
-    //   });
+    this.catalogRequest.idState = this.idStateSelected;
+    this.catalogRequest.page = this.page;
+    this.catalogRequest.totalPage = this.totalPage;
 
-    this.catalogResponse = jsonData as CatalogResponse;
+    this.subscriptions.add(
+      this.catalogService
+        .GetCities(this.catalogRequest)
+        .pipe(first())
+        .subscribe({
+          next: (res) => {
+            debugger;
+            this.catalogResponse = res;
+            this.paginator.length = this.catalogResponse.total;
+            this.initDataSource();
+          },
+          error: (e) => {},
+        })
+    );
 
-    this.initDataSource(this.catalogResponse.listCatalogs);
+    //this.catalogResponse = jsonData as CatalogResponse;
   }
 
-  public initDataSource(data: any) {
+  public initDataSource() {
     var lstProperties = new Array<Catalog>();
-    for (let index = 0; index < data.length; index++) {
-      const element = data[index];
+    for (let index = 0; index < this.catalogResponse.list.length; index++) {
+      const element = this.catalogResponse.list[index];
       lstProperties.push(element);
     }
     this.dataSource = new MatTableDataSource<Catalog>(lstProperties);
@@ -111,7 +134,10 @@ export class CitiesComponent implements OnInit {
     };
 
     const modalRef = this.modalService.open(CitiesModalComponent, ngbModalOptions);
-    modalRef.componentInstance.objCity = city;
+
+    city.idState = this.idStateSelected;
+    modalRef.componentInstance.isUpadte = true;
+    modalRef.componentInstance.objCatalog = city;
 
     modalRef.result.then(
       (v) => {
@@ -125,9 +151,16 @@ export class CitiesComponent implements OnInit {
   }
 
   onChangePage(data: PageEvent) {
-    debugger;
-    this.page = this.paginator.pageIndex;
-    this.totalPage = this.paginator.pageSize;
+    this.page = data.pageIndex;
+    this.totalPage = data.pageSize;
+    this.GetCatalog();
+  }
+
+  onChangeState() {
+    this.page = 0;
+    this.totalPage = 5;
+    this.paginator.pageIndex = 0;
+
     this.GetCatalog();
   }
 

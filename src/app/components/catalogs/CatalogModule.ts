@@ -8,10 +8,25 @@ import { RouterModule } from '@angular/router';
 import { CitiesModalComponent } from './cities/modal/cities-modal.componet';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '@app/@shared';
+import { ColoniesModalComponent } from './colonies/modal/colonies-modal.componet';
 
 @NgModule({
   imports: [SharedModule],
-  declarations: [CitiesComponent, ColoniesComponent, PropertyTypesComponent, AmenitiesComponent, CitiesModalComponent],
-  exports: [CitiesComponent, ColoniesComponent, PropertyTypesComponent, AmenitiesComponent, CitiesModalComponent],
+  declarations: [
+    CitiesComponent,
+    ColoniesComponent,
+    PropertyTypesComponent,
+    AmenitiesComponent,
+    CitiesModalComponent,
+    ColoniesModalComponent,
+  ],
+  exports: [
+    CitiesComponent,
+    ColoniesComponent,
+    PropertyTypesComponent,
+    AmenitiesComponent,
+    CitiesModalComponent,
+    ColoniesModalComponent,
+  ],
 })
 export class CatalogModule {}
