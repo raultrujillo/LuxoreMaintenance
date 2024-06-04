@@ -73,6 +73,24 @@
                 </div>
               </div>
             </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label for="postalCode" class="form-label">C.P.</label>
+                <textarea
+                  formControlName="postalCode"
+                  id="postalCode"
+                  [(ngModel)]="objCatalog.postalCode"
+                  class="form-control"
+                  rows="1"
+                  placeholder="código postal"
+                  maxlength="5"
+                  (keypress)="onlyDigits($event)"
+                ></textarea>
+                <div class="text-danger">
+                  <div *ngIf="FormObjet.controls['postalCode'].invalid">El código postal es requerido.</div>
+                </div>
+              </div>
+            </div>
           </div>
         </form>
       </div>

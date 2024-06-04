@@ -87,6 +87,12 @@ export class ColoniesModalComponent {
     }
   }
 
+  onlyDigits(event: any) {
+    const code = event.charCode;
+    var isValid = code >= 48 && code <= 57;
+    return isValid;
+  }
+
   private add() {
     this.subscriptions.add(
       this.catalogService
@@ -125,6 +131,14 @@ export class ColoniesModalComponent {
           Validators.required,
           //CustomValidators.validaEspacios,
           Validators.maxLength(500),
+        ],
+      ],
+      postalCode: [
+        '',
+        [
+          Validators.required,
+          //CustomValidators.validaEspacios,
+          Validators.maxLength(10),
         ],
       ],
       idCity: ['', [Validators.required, Validators.min(1)]],
