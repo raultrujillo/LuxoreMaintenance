@@ -1,7 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Property } from '@app/models/app.models';
-import { Catalog, CatalogResponse, CityRequest, ColonyRequest, PropertyTypeRequest } from '@app/models/catalog.model';
+import {
+  AmenitiesRequest,
+  Catalog,
+  CatalogResponse,
+  CityRequest,
+  ColonyRequest,
+  PropertyTypeRequest,
+} from '@app/models/catalog.model';
 import { environment } from '@env/environment';
 import { Observable, map } from 'rxjs';
 
@@ -81,6 +88,31 @@ export class CatalogService {
 
   updatePropertyType(obj: PropertyTypeRequest): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/catalogs/updatePropertyType`, obj).pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
+
+  //amenities
+  getAmenities(obj: any): Observable<CatalogResponse> {
+    return this.http.post<CatalogResponse>(`${this.baseUrl}/catalogs/amenities`, obj).pipe(
+      map((response: CatalogResponse) => {
+        return response != null ? response : new CatalogResponse();
+      })
+    );
+  }
+
+  addAmenity(obj: AmenitiesRequest): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/catalogs/addAmenity`, obj).pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
+
+  updateAmenity(obj: AmenitiesRequest): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/catalogs/updateAmenity`, obj).pipe(
       map((response: any) => {
         return response;
       })

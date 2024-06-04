@@ -36,3 +36,12 @@ export class ColonyRequest {
 export class PropertyTypeRequest {
   constructor(public id: number = 0, public description: string = '') {}
 }
+
+export class AmenitiesRequest {
+  constructor(
+    public id: number = 0,
+    public description: string = '',
+    public totalPage: number = 0,
+    public page: number = 0
+  ) {}
+}

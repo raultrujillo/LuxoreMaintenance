@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from '@app/@shared';
 import { ColoniesModalComponent } from './colonies/modal/colonies-modal.componet';
 import { PropertyTypeModalComponent } from './property-types/modal/property-type-modal.componet';
+import { AmenityModalComponent } from './amenities/modal/amenity-modal.componet';
 
 @NgModule({
   imports: [SharedModule],
@@ -21,6 +22,7 @@ import { PropertyTypeModalComponent } from './property-types/modal/property-type
     CitiesModalComponent,
     ColoniesModalComponent,
     PropertyTypeModalComponent,
+    AmenityModalComponent,
   ],
   exports: [
     CitiesComponent,
@@ -30,6 +32,7 @@ import { PropertyTypeModalComponent } from './property-types/modal/property-type
     CitiesModalComponent,
     ColoniesModalComponent,
     PropertyTypeModalComponent,
+    AmenityModalComponent,
   ],
 })
 export class CatalogModule {}
