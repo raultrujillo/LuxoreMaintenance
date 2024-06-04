@@ -79,7 +79,7 @@ export class CitiesModalComponent {
   private update() {
     this.subscriptions.add(
       this.catalogService
-        .update(this.objCatalog)
+        .updateCity(this.objCatalog)
         .pipe(first())
         .subscribe({
           next: (res) => {

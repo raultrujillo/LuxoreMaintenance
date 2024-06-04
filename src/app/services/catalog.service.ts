@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Property } from '@app/models/app.models';
-import { Catalog, CatalogResponse, CityRequest } from '@app/models/catalog.model';
+import { Catalog, CatalogResponse, CityRequest, ColonyRequest } from '@app/models/catalog.model';
 import { environment } from '@env/environment';
 import { Observable, map } from 'rxjs';
 
@@ -21,7 +21,7 @@ export class CatalogService {
     );
   }
 
-  GetCities(obj: any): Observable<CatalogResponse> {
+  getCities(obj: any): Observable<CatalogResponse> {
     return this.http.post<CatalogResponse>(`${this.baseUrl}/catalogs/cities`, obj).pipe(
       map((response: CatalogResponse) => {
         return response != null ? response : new CatalogResponse();
@@ -37,8 +37,33 @@ export class CatalogService {
     );
   }
 
-  update(obj: CityRequest): Observable<any> {
+  updateCity(obj: CityRequest): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/catalogs/updateCity`, obj).pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
+
+  //colonies
+  getColonies(obj: any): Observable<CatalogResponse> {
+    return this.http.post<CatalogResponse>(`${this.baseUrl}/catalogs/colonies`, obj).pipe(
+      map((response: CatalogResponse) => {
+        return response != null ? response : new CatalogResponse();
+      })
+    );
+  }
+
+  addColony(obj: ColonyRequest): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/catalogs/addColony`, obj).pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
+
+  updateColony(obj: ColonyRequest): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/catalogs/updateColony`, obj).pipe(
       map((response: any) => {
         return response;
       })

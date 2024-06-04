@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Catalog } from '@app/models/catalog.model';
+import { Catalog, CityRequest, ColonyRequest } from '@app/models/catalog.model';
 import { Cities } from '@app/models/cities.model';
 import { States } from '@app/models/states.model';
+import { CatalogService } from '@app/services/catalog.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription, first } from 'rxjs';
 
 @Component({
   selector: 'app-colonies-modal',
@@ -15,32 +17,104 @@ export class ColoniesModalComponent {
   FormObjet!: FormGroup;
   city: string = '';
 
-  public objCatalog: Catalog = new Catalog();
-
+  public objCatalog: ColonyRequest = new ColonyRequest();
+  isUpadte: boolean = false;
   //states
   lstStates: Catalog[] = new Array<Catalog>();
   idStateSelected: number = 0;
 
   //City
+  //cities
   lstCities: Catalog[] = new Array<Catalog>();
+  idCitySelected: number = 0;
+  catalogCityRequest: CityRequest = new CityRequest();
 
-  constructor(public activeModal: NgbActiveModal, public formBuilder: FormBuilder) {
+  subscriptions = new Subscription();
+  constructor(
+    public activeModal: NgbActiveModal,
+    public formBuilder: FormBuilder,
+    private catalogService: CatalogService
+  ) {
     this.getStates();
     this.getCities();
     this.nuevoForm();
   }
 
-  getCities() {}
-
   //catlaogs
-  getStates() {}
+  getStates() {
+    this.subscriptions.add(
+      this.catalogService
+        .getCatalog('states')
+        .pipe(first())
+        .subscribe({
+          next: (res) => {
+            this.lstStates = res;
+          },
+          error: (e) => {},
+        })
+    );
+  }
+
+  onChangeState() {
+    this.getCities();
+  }
+
+  getCities() {
+    this.catalogCityRequest.idState = this.idStateSelected;
+    this.catalogCityRequest.page = 0;
+    this.catalogCityRequest.totalPage = 1000;
+    this.subscriptions.add(
+      this.catalogService
+        .getCities(this.catalogCityRequest)
+        .pipe(first())
+        .subscribe({
+          next: (res) => {
+            this.lstCities = res.list;
+          },
+          error: (e) => {},
+        })
+    );
+  }
 
   save() {
     if (this.FormObjet.invalid) {
       return;
     }
-    this.objCatalog;
-    this.activeModal.close();
+    if (this.isUpadte) {
+      this.update();
+    } else {
+      this.add();
+    }
+  }
+
+  private add() {
+    this.subscriptions.add(
+      this.catalogService
+        .addColony(this.objCatalog)
+        .pipe(first())
+        .subscribe({
+          next: (res) => {
+            this.objCatalog;
+            this.activeModal.close();
+          },
+          error: (e) => {},
+        })
+    );
+  }
+
+  private update() {
+    this.subscriptions.add(
+      this.catalogService
+        .updateColony(this.objCatalog)
+        .pipe(first())
+        .subscribe({
+          next: (res) => {
+            this.objCatalog;
+            this.activeModal.close();
+          },
+          error: (e) => {},
+        })
+    );
   }
 
   private nuevoForm() {
@@ -54,6 +128,7 @@ export class ColoniesModalComponent {
         ],
       ],
       idCity: ['', [Validators.required, Validators.min(1)]],
+      idState: ['', [Validators.required, Validators.min(1)]],
     });
   }
 }

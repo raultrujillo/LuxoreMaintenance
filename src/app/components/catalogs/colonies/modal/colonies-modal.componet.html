@@ -20,26 +20,28 @@
                 <label for="state" class="form-label">Estado:</label>
                 <select
                   class="form-select"
+                  name="state1"
                   id="state"
                   placeholder="io"
-                  formControlName="idFather"
+                  formControlName="idState"
                   [(ngModel)]="idStateSelected"
+                  (change)="onChangeState()"
                 >
-                  <option [ngValue]="0">Todos</option>
-                  <option [ngValue]="state.id" *ngFor="let state of lstStates">{{state.description}}</option>
+                  <option [ngValue]="state.id" *ngFor="let state of lstStates">{{ state.description }}</option>
                 </select>
                 <div class="text-danger">
-                  <div *ngIf="FormObjet.controls['idFather'].invalid">El estado es requerido</div>
+                  <div *ngIf="FormObjet.controls['idState'].invalid">El estado es requerido</div>
                 </div>
               </div>
             </div>
             <div class="col-12">
-              <!-- Estado -->
+              <!-- Ciudad -->
               <div class="form-group">
-                <label for="state" class="form-label">Ciudad:</label>
+                <label for="city" class="form-label">Ciudad:</label>
                 <select
                   class="form-select"
-                  id="state"
+                  name="city1"
+                  id="city"
                   placeholder="io"
                   formControlName="idCity"
                   [(ngModel)]="objCatalog.idCity"
@@ -47,7 +49,7 @@
                   <option [ngValue]="city.id" *ngFor="let city of lstCities">{{city.description}}</option>
                 </select>
                 <div class="text-danger">
-                  <div *ngIf="FormObjet.controls['idCity'].invalid">El estado es requerido</div>
+                  <div *ngIf="FormObjet.controls['idCity'].invalid">La ciudad es requerido</div>
                 </div>
               </div>
             </div>

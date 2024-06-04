@@ -3,9 +3,14 @@
     <!-- Estado -->
     <div class="col-md-4 col-xl-4 col-sm-12">
       <div class="form-group">
-        <label for="state1" class="form-label">Estado:</label>
-        <select class="form-select" id="state1" placeholder="io" [(ngModel)]="idStateSelected" (change)="getCitiesT()">
-          <option [ngValue]="0">Todos</option>
+        <label for="state" class="form-label">Estado:</label>
+        <select
+          class="form-select"
+          id="state"
+          placeholder="io"
+          [(ngModel)]="idStateSelected"
+          (change)="onChangeState()"
+        >
           <option [ngValue]="state.id" *ngFor="let state of lstStates">{{ state.description }}</option>
         </select>
       </div>
@@ -13,8 +18,7 @@
     <div class="col-md-4 col-xl-4 col-sm-12">
       <div class="form-group">
         <label for="state" class="form-label">Ciudad:</label>
-        <select class="form-select" id="city" placeholder="io" [(ngModel)]="idCitySelected" (change)="GetCatalog()">
-          <option [ngValue]="0">Todas</option>
+        <select class="form-select" id="city" placeholder="io" [(ngModel)]="idCitySelected" (change)="onChangeCity()">
           <option [ngValue]="city.id" *ngFor="let city of lstCities">{{ city.description }}</option>
         </select>
       </div>

@@ -22,7 +22,6 @@ export class ShellComponent implements OnInit {
   ngOnInit() {}
 
   logout() {
-    debugger;
     //this.authenticationService.logout().subscribe(() => this.router.navigate(['/'], { replaceUrl: true }));
     this.router.navigate(['/login']);
   }

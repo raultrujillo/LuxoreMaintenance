@@ -69,11 +69,10 @@ export class CitiesComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(
       this.catalogService
-        .GetCities(this.catalogRequest)
+        .getCities(this.catalogRequest)
         .pipe(first())
         .subscribe({
           next: (res) => {
-            debugger;
             this.catalogResponse = res;
             this.paginator.length = this.catalogResponse.total;
             this.initDataSource();
@@ -81,8 +80,6 @@ export class CitiesComponent implements OnInit, OnDestroy {
           error: (e) => {},
         })
     );
-
-    //this.catalogResponse = jsonData as CatalogResponse;
   }
 
   public initDataSource() {
@@ -110,7 +107,7 @@ export class CitiesComponent implements OnInit, OnDestroy {
     };
 
     const modalRef = this.modalService.open(CitiesModalComponent, ngbModalOptions);
-
+    modalRef.componentInstance.isUpadte = false;
     modalRef.result.then(
       (v) => {
         this.toast.succes('Se ha agregado la ciudad');

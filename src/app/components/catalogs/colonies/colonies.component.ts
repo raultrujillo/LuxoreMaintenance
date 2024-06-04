@@ -1,20 +1,21 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Catalog, CatalogResponse } from '@app/models/catalog.model';
+import { Catalog, CatalogResponse, CityRequest, ColonyRequest } from '@app/models/catalog.model';
 import { CatalogService } from '@app/services/catalog.service';
 import { ToastService } from '@app/services/toast.service';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { CitiesModalComponent } from '../cities/modal/cities-modal.componet';
 import * as jsonData from 'src/assets/data/colonies.json';
 import { ColoniesModalComponent } from './modal/colonies-modal.componet';
+import { Subscription, first } from 'rxjs';
 @Component({
   selector: 'app-colonies',
   templateUrl: './colonies.component.html',
   styleUrls: ['./colonies.component.scss'],
 })
-export class ColoniesComponent implements OnInit {
+export class ColoniesComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['id', 'desc', 'actions'];
   dataSource: MatTableDataSource<Catalog> = new MatTableDataSource<Catalog>(new Array<Catalog>());
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -27,11 +28,17 @@ export class ColoniesComponent implements OnInit {
 
   //states
   lstStates: Catalog[] = new Array<Catalog>();
-  idStateSelected: number = 0;
+  idStateSelected: number = 1;
 
   //cities
   lstCities: Catalog[] = new Array<Catalog>();
-  idCitySelected: number = 0;
+  idCitySelected: number = 1;
+  catalogCityRequest: CityRequest = new CityRequest();
+
+  // Colonies
+
+  catalogRequest: ColonyRequest = new ColonyRequest();
+  subscriptions = new Subscription();
 
   constructor(private modalService: NgbModal, private toast: ToastService, private catalogService: CatalogService) {}
 
@@ -41,38 +48,83 @@ export class ColoniesComponent implements OnInit {
     this.GetCatalog();
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
   //catlaogs
-  getStates() {}
+  getStates() {
+    this.subscriptions.add(
+      this.catalogService
+        .getCatalog('states')
+        .pipe(first())
+        .subscribe({
+          next: (res) => {
+            this.lstStates = res;
+          },
+          error: (e) => {},
+        })
+    );
+  }
 
-  getCities() {}
+  onChangeState() {
+    this.getCities();
+  }
 
-  getCitiesT() {
-    this.lstCities = this.lstCities.filter((x) => x.idCity == this.idStateSelected);
+  getCities() {
+    this.page = 0;
+    this.totalPage = 5;
+    this.paginator.pageIndex = 0;
+
+    this.catalogCityRequest.idState = this.idStateSelected;
+    this.catalogCityRequest.page = 0;
+    this.catalogCityRequest.totalPage = 1000;
+    this.subscriptions.add(
+      this.catalogService
+        .getCities(this.catalogCityRequest)
+        .pipe(first())
+        .subscribe({
+          next: (res) => {
+            this.lstCities = res.list;
+            this.idCitySelected = res.list[0].id;
+            this.GetCatalog();
+          },
+          error: (e) => {},
+        })
+    );
+  }
+
+  onChangeCity() {
+    this.GetCatalog();
   }
 
   GetCatalog() {
-    // this.catalogService.getCatalog().pipe(first()).subscribe(
-    //   res =>{
-    //     debugger
-    //     this.catalogResponse =  res;
-    //     this.paginator.length =  this.catalogResponse.total;
-    //     this.initDataSource(this.catalogResponse.listCatalogs);
-    //   });
+    this.catalogRequest.idCity = this.idCitySelected;
+    this.catalogRequest.page = this.page;
+    this.catalogRequest.totalPage = this.totalPage;
 
-    this.catalogResponse = jsonData as CatalogResponse;
-
-    this.idCitySelected;
-    this.initDataSource(this.catalogResponse.list);
+    this.subscriptions.add(
+      this.catalogService
+        .getColonies(this.catalogRequest)
+        .pipe(first())
+        .subscribe({
+          next: (res) => {
+            this.catalogResponse = res;
+            this.paginator.length = this.catalogResponse.total;
+            this.initDataSource();
+          },
+          error: (e) => {},
+        })
+    );
   }
 
-  public initDataSource(data: any) {
+  public initDataSource() {
     var lstProperties = new Array<Catalog>();
-    for (let index = 0; index < data.length; index++) {
-      const element = data[index];
+    for (let index = 0; index < this.catalogResponse.list.length; index++) {
+      const element = this.catalogResponse.list[index];
       lstProperties.push(element);
     }
     this.dataSource = new MatTableDataSource<Catalog>(lstProperties);
-    // this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
@@ -90,7 +142,7 @@ export class ColoniesComponent implements OnInit {
     };
 
     const modalRef = this.modalService.open(ColoniesModalComponent, ngbModalOptions);
-
+    modalRef.componentInstance.isUpadte = false;
     modalRef.result.then(
       (v) => {
         this.toast.succes('Se ha agregado la ciudad');
@@ -114,7 +166,11 @@ export class ColoniesComponent implements OnInit {
     };
 
     const modalRef = this.modalService.open(ColoniesModalComponent, ngbModalOptions);
+    modalRef.componentInstance.idStateSelected = this.idStateSelected;
+    colony.idCity = this.idCitySelected;
+    modalRef.componentInstance.isUpadte = true;
     modalRef.componentInstance.objCatalog = colony;
+    modalRef.componentInstance.getCities();
 
     modalRef.result.then(
       (v) => {
@@ -128,7 +184,6 @@ export class ColoniesComponent implements OnInit {
   }
 
   onChangePage(data: PageEvent) {
-    debugger;
     this.page = data.pageIndex;
     this.totalPage = data.pageSize;
     this.GetCatalog();
