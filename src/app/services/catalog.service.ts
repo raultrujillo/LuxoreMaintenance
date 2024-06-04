@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Property } from '@app/models/app.models';
-import { Catalog, CatalogResponse, CityRequest, ColonyRequest } from '@app/models/catalog.model';
+import { Catalog, CatalogResponse, CityRequest, ColonyRequest, PropertyTypeRequest } from '@app/models/catalog.model';
 import { environment } from '@env/environment';
 import { Observable, map } from 'rxjs';
 
@@ -64,6 +64,23 @@ export class CatalogService {
 
   updateColony(obj: ColonyRequest): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/catalogs/updateColony`, obj).pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
+
+  //properties
+  addPropertyType(obj: PropertyTypeRequest): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/catalogs/addPropertyType`, obj).pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
+
+  updatePropertyType(obj: PropertyTypeRequest): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/catalogs/updatePropertyType`, obj).pipe(
       map((response: any) => {
         return response;
       })

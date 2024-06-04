@@ -1,1 +1,45 @@
-<div>Hola soy componente de tipo d epropiedad</div>
+<div #container class="table-wrapper">
+  <div class="row m-2">
+    <!-- btn agregar -->
+    <div class="col-md-12 col-xl-12 col-sm-12">
+      <span class="float-end mx-4 my-4">
+        <button class="btn btn-primary hiddenText" (click)="add()">
+          <mat-icon class="pt-1">add</mat-icon>
+          <span>Nuevo registro</span>
+        </button>
+      </span>
+    </div>
+  </div>
+  <table mat-table [dataSource]="dataSource" matSort class="w-100">
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let catalog">{{ catalog.id }}</td>
+    </ng-container>
+
+    <!-- Desc Column -->
+    <ng-container matColumnDef="desc">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
+      <td mat-cell *matCellDef="let catalog">
+        <a [routerLink]="['/properties', catalog.id]" class="property-name">{{ catalog.description }}</a>
+      </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let catalog">
+        <button mat-icon-button color="primary" matTooltip="Editar ciudad" (click)="edit(catalog)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <!-- <button mat-icon-button color="warn" (click)="remove(catalog)" matTooltip="Eliminar" class="remove">
+              <mat-icon>delete</mat-icon>
+            </button> -->
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let catalog; columns: displayedColumns"></tr>
+  </table>
+  <p *ngIf="dataSource?.data?.length === 0" class="py-5 mb-0 text-center">No data available</p>
+</div>
