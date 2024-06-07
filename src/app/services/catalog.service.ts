@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Property } from '@app/models/app.models';
 import {
   AmenitiesRequest,
   Catalog,

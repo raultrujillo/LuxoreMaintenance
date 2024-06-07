@@ -1,49 +1,82 @@
-<mat-form-field appearance="outline" class="w-100">
-  <input matInput (keyup)="applyFilter($event.target)" placeholder="Filtrar" autocomplete="off" />
-</mat-form-field>
-<div class="table-wrapper">
-  <table mat-table [dataSource]="dataSource" matSort class="w-100">
-    <!-- ID Column -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-      <td mat-cell *matCellDef="let property">{{ property.id }}</td>
-    </ng-container>
-
-    <!-- Title Column -->
-    <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Titulo</th>
-      <td mat-cell *matCellDef="let property">
-        <a [routerLink]="['/properties', property.id]" class="property-name">{{ property.title }}</a>
-      </td>
-    </ng-container>
-
-    <!-- Published Column -->
-    <ng-container matColumnDef="published">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de publicación</th>
-      <td mat-cell *matCellDef="let property">{{ property.published | date : 'dd MMMM, yyyy' }}</td>
-    </ng-container>
-
-    <!-- Actions Column -->
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>Acciones</th>
-      <td mat-cell *matCellDef="let property">
-        <a
-          [routerLink]="['/account/my-properties', property.id]"
-          mat-icon-button
-          color="primary"
-          matTooltip="Edit property"
+<div #container class="table-wrapper">
+  <div class="mx-3 mt-2">
+    <!-- categoria -->
+    <div class="col-md-6 col-xl-6 col-sm-12 mb-2">
+      <div class="form-group">
+        <label for="state" class="form-label">Categoría:</label>
+        <select
+          class="form-select"
+          id="state"
+          placeholder="io"
+          [(ngModel)]="idCategorySelected"
+          (change)="onChangeCategory()"
         >
-          <mat-icon>edit</mat-icon>
-        </a>
-        <button mat-icon-button color="warn" (click)="remove(property)" matTooltip="Remove" class="remove">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+          <option [ngValue]="category.id" *ngFor="let category of lstCategories">{{ category.description }}</option>
+        </select>
+      </div>
+    </div>
+    <!-- wildcard -->
+    <mat-form-field appearance="outline" class="w-100">
+      <input matInput (keyup)="applyFilter($event.target)" placeholder="Filtrar" autocomplete="off" />
+    </mat-form-field>
+  </div>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let property; columns: displayedColumns"></tr>
-  </table>
-  <p *ngIf="dataSource?.data?.length === 0" class="py-5 mb-0 text-center">No data available</p>
+  <!-- tabla -->
+  <div class="table-wrapper">
+    <table mat-table [dataSource]="dataSource" matSort class="w-100">
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let property">{{ property.id }}</td>
+      </ng-container>
+
+      <!-- Title Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Titulo</th>
+        <td mat-cell *matCellDef="let property">
+          <a [routerLink]="['/properties', property.id]" class="property-name">{{ property.title }}</a>
+        </td>
+      </ng-container>
+
+      <!-- Published Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio</th>
+        <td mat-cell *matCellDef="let property">{{ property.price }}</td>
+      </ng-container>
+
+      <!-- Price Column -->
+      <ng-container matColumnDef="postedYear">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de publicación</th>
+        <td mat-cell *matCellDef="let property">{{ property.postedYear | date : 'dd MMMM, yyyy' }}</td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let property">
+          <a
+            [routerLink]="['/account/my-properties', property.id]"
+            mat-icon-button
+            color="primary"
+            matTooltip="Edit property"
+          >
+            <mat-icon>edit</mat-icon>
+          </a>
+          <button mat-icon-button color="warn" (click)="remove(property)" matTooltip="Remove" class="remove">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        [ngClass]="{ enabled: !property.enabled, sold: property.sold }"
+        mat-row
+        *matRowDef="let property; columns: displayedColumns"
+      ></tr>
+    </table>
+    <p *ngIf="dataSource?.data?.length === 0" class="py-5 mb-0 text-center">No data available</p>
+  </div>
 </div>
-<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+
+<mat-paginator (page)="onChangePage($event)" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>

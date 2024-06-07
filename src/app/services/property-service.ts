@@ -1,16 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Property } from '@app/models/app.models';
+import { CatalogResponse } from '@app/models/catalog.model';
+import { PropertyResponse } from '@app/models/property.model';
 import { environment } from '@env/environment';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PropertyService {
-  public url = environment.url + '/src/assets/data/';
+  private baseUrl = environment.serverUrl;
+
   constructor(public http: HttpClient) {}
-  public getProperties(): Observable<Property[]> {
-    return this.http.get<Property[]>(this.url + 'properties.json');
+
+  getProperties(obj: any): Observable<PropertyResponse> {
+    return this.http.post<PropertyResponse>(`${this.baseUrl}/properties/`, obj).pipe(
+      map((response: PropertyResponse) => {
+        return response != null ? response : new PropertyResponse();
+      })
+    );
   }
 }

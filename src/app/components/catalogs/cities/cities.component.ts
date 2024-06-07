@@ -2,14 +2,12 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Cities } from '@app/models/cities.model';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { CitiesModalComponent } from './modal/cities-modal.componet';
 import { ToastService } from '@app/services/toast.service';
 import { Catalog, CatalogResponse, CityRequest } from '@app/models/catalog.model';
 import { CatalogService } from '@app/services/catalog.service';
 import { Subscription, first } from 'rxjs';
-import * as jsonData from 'src/assets/data/cities.json';
 
 @Component({
   selector: 'app-cities',
