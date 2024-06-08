@@ -30,6 +30,14 @@ const routes: Routes = [
 
   Shell.childRoutes([
     {
+      path: 'update/:id',
+      component: PropertyComponent,
+      data: { title: marker('Nueva propiedad') },
+    },
+  ]),
+
+  Shell.childRoutes([
+    {
       path: 'ciudades',
       component: CitiesComponent,
       data: { title: marker('Catalogo de ciudades') },

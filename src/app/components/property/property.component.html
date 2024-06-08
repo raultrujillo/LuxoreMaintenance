@@ -5,18 +5,46 @@
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Datos Generales</ng-template>
+      <!-- disponible y vendida  -->
+      <div *ngIf="isUpdate" class="row mt-2 mb-4 ms-1">
+        <div class="col-md-6 col-sm-6">
+          <mat-checkbox formControlName="sold" [(ngModel)]="property.sold">¿Vendida?</mat-checkbox>
+        </div>
+        <div class="col-md-6 col-sm-6">
+          <mat-checkbox formControlName="sold" [(ngModel)]="property.enable">¿Disponible?</mat-checkbox>
+        </div>
+      </div>
       <!-- titulo y description -->
       <div class="row">
         <div class="col-md-12">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Titulo</mat-label>
-            <input matInput placeholder="Titulo" formControlName="title" required />
+            <input
+              matInput
+              placeholder="Titulo"
+              maxlength="250"
+              formControlName="title"
+              required
+              [(ngModel)]="property.title"
+            />
           </mat-form-field>
         </div>
         <div class="col-12">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Descripción</mat-label>
-            <input matInput placeholder="Descripción" formControlName="description" required />
+            <input
+              matInput
+              placeholder="Descripción"
+              formControlName="description"
+              required
+              [(ngModel)]="property.description"
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-md-12">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Notas</mat-label>
+            <input matInput placeholder="Notas" formControlName="notes" required [(ngModel)]="property.notes" />
           </mat-form-field>
         </div>
       </div>
@@ -24,13 +52,28 @@
       <div class="row">
         <div class="form-group col-md-6 col-sm-12 col-xl-6">
           <label for="state" class="form-label">Categoria:</label>
-          <select class="form-select" id="state" placeholder="io" formControlName="idCategory">
+          <select
+            class="form-select"
+            name="categorySelect"
+            id="state"
+            placeholder="io"
+            formControlName="idCategory"
+            [(ngModel)]="property.idCategory.id"
+            [ngClass]="{ 'is-invalid': firstFormGroup.controls['idCategory'].invalid }"
+          >
             <option [ngValue]="category.id" *ngFor="let category of lstCategories">{{ category.description }}</option>
           </select>
         </div>
         <div class="form-group col-md-6 col-sm-12 col-xl-6">
           <label for="state" class="form-label">Tipo de propiedad:</label>
-          <select class="form-select" id="state" placeholder="io" formControlName="idPropertyType">
+          <select
+            class="form-select"
+            id="state"
+            placeholder="io"
+            formControlName="idPropertyType"
+            [(ngModel)]="property.idPropertyType.id"
+            [ngClass]="{ 'is-invalid': firstFormGroup.controls['idPropertyType'].invalid }"
+          >
             <option [ngValue]="property.id" *ngFor="let property of lstPropertyTypes">
               {{ property.description }}
             </option>
@@ -40,27 +83,50 @@
       <!-- precios -->
       <div class="row mt-3">
         <div class="col-md-3 col-sm-6">
-          <mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>Precio</mat-label>
-            <input matInput placeholder="Precio" formControlName="price" required />
+            <input
+              matInput
+              placeholder="Precio"
+              maxlength="25"
+              (keypress)="onlyDigitsDecimal($event)"
+              formControlName="price"
+              required
+              [(ngModel)]="property.price"
+            />
           </mat-form-field>
         </div>
         <div class="col-md-3 col-sm-6">
-          <mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>Precio comercial</mat-label>
-            <input matInput placeholder="Precio comercial" formControlName="comercialValue" required />
+            <input
+              matInput
+              placeholder="Precio comercial"
+              maxlength="25"
+              (keypress)="onlyDigitsDecimal($event)"
+              formControlName="comercialValue"
+              required
+              [(ngModel)]="property.comercialValue"
+            />
           </mat-form-field>
         </div>
-        <div class="col-md-3 col-sm-6 mt-2">
-          <mat-checkbox formControlName="price">¿Se aceptan creditos?</mat-checkbox>
-        </div>
-        <div class="col-md-3 col-sm-6 mt-2">
-          <mat-checkbox formControlName="sold">¿Vendida?</mat-checkbox>
+        <div class="col-md- col-sm-6 mt-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>¿Se aceptan creditos?</mat-label>
+            <input
+              matInput
+              placeholder="Precio comercial"
+              maxlength="100"
+              formControlName="comercialValue"
+              required
+              [(ngModel)]="property.credit"
+            />
+          </mat-form-field>
         </div>
       </div>
 
       <div>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button class="btn btn-primary" matStepperNext>Siguiente</button>
       </div>
     </form>
   </mat-step>
@@ -68,57 +134,110 @@
     <form [formGroup]="secondFormGroup">
       <!--Garage  -->
       <div class="row">
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-3 col-sm-6">
           <div class="col-md-4 col-sm-6 mt-3">
-            <mat-checkbox formControlName="garage">¿Con estacionamiento?</mat-checkbox>
+            <mat-checkbox formControlName="garage" [(ngModel)]="property.garage">¿Con estacionamiento?</mat-checkbox>
           </div>
         </div>
-        <div class="col-md-4 col-sm-6">
-          <mat-form-field>
+        <div class="col-md-3 col-sm-6">
+          <mat-form-field appearance="outline">
             <mat-label>Número de coches</mat-label>
-            <input matInput placeholder="Número de coches" formControlName="carsNumber" required />
+            <input
+              matInput
+              placeholder="Número de coches"
+              maxlength="3"
+              (keypress)="onlyDigits($event)"
+              formControlName="carsNumber"
+              [(ngModel)]="property.carsNumber"
+              required
+            />
           </mat-form-field>
         </div>
-      </div>
-      <!--cuartos,baños  -->
-      <div class="row">
-        <div class="col-md-4 col-sm-6">
-          <mat-form-field>
+        <div class="col-md-3 col-sm-6">
+          <mat-form-field appearance="outline">
             <mat-label>Número de pisos</mat-label>
-            <input matInput placeholder="Número de pisos" formControlName="floors" required />
-          </mat-form-field>
-        </div>
-        <div class="col-md-4 col-sm-6">
-          <mat-form-field>
-            <mat-label>Número de baños</mat-label>
-            <input matInput placeholder="Número de baños" formControlName="bathrooms" required />
-          </mat-form-field>
-        </div>
-        <div class="col-md-4 col-sm-6">
-          <mat-form-field>
-            <mat-label>Número de cuartos</mat-label>
-            <input matInput placeholder="Número de cuartos" formControlName="bedrooms" required />
+            <input
+              matInput
+              placeholder="Número de pisos"
+              maxlength="3"
+              formControlName="floors"
+              (keypress)="onlyDigits($event)"
+              [(ngModel)]="property.floors"
+              required
+            />
           </mat-form-field>
         </div>
       </div>
-      <!--Metros  -->
+      <!--cuartos,baños metros -->
       <div class="row">
-        <div class="col-md-4 col-sm-6">
-          <mat-form-field>
+        <div class="col-md-3 col-sm-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Número de baños</mat-label>
+            <input
+              matInput
+              placeholder="Número de baños"
+              maxlength="3"
+              formControlName="bathrooms"
+              [(ngModel)]="property.bathrooms"
+              required
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Número de cuartos</mat-label>
+            <input
+              matInput
+              placeholder="Número de cuartos"
+              formControlName="bedrooms"
+              [(ngModel)]="property.bedrooms"
+              required
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <mat-form-field appearance="outline">
             <mat-label>Superficie</mat-label>
-            <input matInput placeholder="Superficie" formControlName="metersSurface" required />
+            <input
+              matInput
+              placeholder="Superficie"
+              maxlength="15"
+              (keypress)="onlyDigitsDecimal($event)"
+              formControlName="metersSurface"
+              [(ngModel)]="property.metersSurface"
+              required
+            />
           </mat-form-field>
         </div>
-        <div class="col-md-4 col-sm-6">
-          <mat-form-field>
+        <div class="col-md-3 col-sm-6">
+          <mat-form-field appearance="outline">
             <mat-label>Metros construidos</mat-label>
-            <input matInput placeholder="Metros construidos" formControlName="metersBuilded" required />
+            <input
+              matInput
+              placeholder="Metros construidos"
+              maxlength="15"
+              (keypress)="onlyDigitsDecimal($event)"
+              formControlName="metersBuilded"
+              [(ngModel)]="property.metersBuilded"
+              required
+            />
           </mat-form-field>
         </div>
+      </div>
+      <!--amenities  -->
+      <div class="row">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Amenidades</mat-label>
+          <mat-select placeholder="Seleccione amenidades" formControlName="amenities" multiple>
+            <mat-option (onSelectionChange)="getValues($event)" *ngFor="let amenty of lstAmenities" [value]="amenty">
+              {{ amenty.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button matStepperPrevious class="btn btn-secondary">Regresar</button>
+        <button mat-button class="btn btn-primary" matStepperNext>Siguiente</button>
       </div>
     </form>
   </mat-step>
@@ -129,7 +248,14 @@
         <div class="col-12">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Dirección</mat-label>
-            <input matInput placeholder="Direción" formControlName="addres" required />
+            <input
+              matInput
+              placeholder="Direción"
+              maxlength="100"
+              formControlName="addres"
+              [(ngModel)]="property.addres"
+              required
+            />
           </mat-form-field>
         </div>
       </div>
@@ -138,7 +264,14 @@
         <div class="col-12">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Dirección corta</mat-label>
-            <input matInput placeholder="Direción corta" formControlName="pageAddress" required />
+            <input
+              matInput
+              placeholder="Direción corta"
+              maxlength="100"
+              formControlName="pageAddress"
+              [(ngModel)]="property.pageAddress"
+              required
+            />
           </mat-form-field>
         </div>
       </div>
@@ -153,6 +286,7 @@
             [(ngModel)]="idStateSelected"
             (change)="onChangeState()"
             formControlName="idState"
+            [ngClass]="{ 'is-invalid': thirdFormGroup.controls['idState'].invalid }"
           >
             <option [ngValue]="state.id" *ngFor="let state of lstStates">{{ state.description }}</option>
           </select>
@@ -166,6 +300,7 @@
             [(ngModel)]="idCitySelected"
             (change)="onChangeCity()"
             formControlName="idCity"
+            [ngClass]="{ 'is-invalid': thirdFormGroup.controls['idCity'].invalid }"
           >
             <option [ngValue]="city.id" *ngFor="let city of lstCities">{{ city.description }}</option>
           </select>
@@ -178,6 +313,7 @@
             placeholder="io"
             [(ngModel)]="idColonySelected"
             formControlName="idColony"
+            [ngClass]="{ 'is-invalid': thirdFormGroup.controls['idColony'].invalid }"
           >
             <option [ngValue]="colony.id" *ngFor="let colony of lstColonies">{{ colony.description }}</option>
           </select>
@@ -186,37 +322,62 @@
       <!-- zip -->
       <div class="row mt-3">
         <div class="col-md-3 col-sm-6">
-          <mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>C.P.</mat-label>
-            <input matInput placeholder="Precio" formControlName="zip" required />
+            <input
+              matInput
+              placeholder="C.P."
+              maxlength="15"
+              formControlName="zip"
+              [(ngModel)]="property.zip"
+              required
+            />
           </mat-form-field>
         </div>
         <div class="col-md-3 col-sm-6">
-          <mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>Latitud</mat-label>
-            <input matInput placeholder="Latitud" formControlName="latitude" required />
+            <input
+              matInput
+              placeholder="Latitud"
+              maxlength="100"
+              formControlName="latitude"
+              [(ngModel)]="property.latitude"
+              required
+            />
           </mat-form-field>
         </div>
         <div class="col-md-3 col-sm-6">
-          <mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>Longitud</mat-label>
-            <input matInput placeholder="Longitud" formControlName="longitude" required />
+            <input
+              matInput
+              placeholder="Longitud"
+              maxlength="100"
+              formControlName="longitude"
+              [(ngModel)]="property.longitude"
+              required
+            />
           </mat-form-field>
         </div>
       </div>
 
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button matStepperPrevious class="btn btn-secondary">Regresar</button>
+        <button *ngIf="!isUpdate" mat-button class="btn btn-primary" matStepperNext (click)="addProperty()">
+          Guardar
+        </button>
+        <button *ngIf="isUpdate" mat-button (click)="updateProperty()" class="btn btn-primary">Actualizar</button>
       </div>
     </form>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
+    <ng-template matStepLabel>Images</ng-template>
     <p>You are now done.</p>
     <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
+      <button mat-button matStepperPrevious class="btn btn-secondary">Regresar</button>
+      <button *ngIf="!isUpdate" mat-button class="btn btn-outline-primary">Guardar</button>
+      <button *ngIf="isUpdate" mat-button class="btn btn-outline-primary">Actualizar</button>
     </div>
   </mat-step>
 </mat-stepper>

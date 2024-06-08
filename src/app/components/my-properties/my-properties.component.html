@@ -54,12 +54,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Acciones</th>
         <td mat-cell *matCellDef="let property">
-          <a
-            [routerLink]="['/account/my-properties', property.id]"
-            mat-icon-button
-            color="primary"
-            matTooltip="Edit property"
-          >
+          <a [routerLink]="['/update', property.id]" mat-icon-button color="primary" matTooltip="Edit property">
             <mat-icon>edit</mat-icon>
           </a>
           <button mat-icon-button color="warn" (click)="remove(property)" matTooltip="Remove" class="remove">
