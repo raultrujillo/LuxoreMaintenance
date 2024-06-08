@@ -1,0 +1,222 @@
+<button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+  {{ !isLinear ? 'Enable linear mode' : 'Disable linear mode' }}
+</button>
+<mat-stepper [orientation]="(stepperOrientation | async)!" [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Datos Generales</ng-template>
+      <!-- titulo y description -->
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Titulo</mat-label>
+            <input matInput placeholder="Titulo" formControlName="title" required />
+          </mat-form-field>
+        </div>
+        <div class="col-12">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Descripción</mat-label>
+            <input matInput placeholder="Descripción" formControlName="description" required />
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- tipo de propiedad/categoria -->
+      <div class="row">
+        <div class="form-group col-md-6 col-sm-12 col-xl-6">
+          <label for="state" class="form-label">Categoria:</label>
+          <select class="form-select" id="state" placeholder="io" formControlName="idCategory">
+            <option [ngValue]="category.id" *ngFor="let category of lstCategories">{{ category.description }}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-6 col-sm-12 col-xl-6">
+          <label for="state" class="form-label">Tipo de propiedad:</label>
+          <select class="form-select" id="state" placeholder="io" formControlName="idPropertyType">
+            <option [ngValue]="property.id" *ngFor="let property of lstPropertyTypes">
+              {{ property.description }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <!-- precios -->
+      <div class="row mt-3">
+        <div class="col-md-3 col-sm-6">
+          <mat-form-field>
+            <mat-label>Precio</mat-label>
+            <input matInput placeholder="Precio" formControlName="price" required />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <mat-form-field>
+            <mat-label>Precio comercial</mat-label>
+            <input matInput placeholder="Precio comercial" formControlName="comercialValue" required />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3 col-sm-6 mt-2">
+          <mat-checkbox formControlName="price">¿Se aceptan creditos?</mat-checkbox>
+        </div>
+        <div class="col-md-3 col-sm-6 mt-2">
+          <mat-checkbox formControlName="sold">¿Vendida?</mat-checkbox>
+        </div>
+      </div>
+
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" label="Datos complementarios">
+    <form [formGroup]="secondFormGroup">
+      <!--Garage  -->
+      <div class="row">
+        <div class="col-md-4 col-sm-6">
+          <div class="col-md-4 col-sm-6 mt-3">
+            <mat-checkbox formControlName="garage">¿Con estacionamiento?</mat-checkbox>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <mat-form-field>
+            <mat-label>Número de coches</mat-label>
+            <input matInput placeholder="Número de coches" formControlName="carsNumber" required />
+          </mat-form-field>
+        </div>
+      </div>
+      <!--cuartos,baños  -->
+      <div class="row">
+        <div class="col-md-4 col-sm-6">
+          <mat-form-field>
+            <mat-label>Número de pisos</mat-label>
+            <input matInput placeholder="Número de pisos" formControlName="floors" required />
+          </mat-form-field>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <mat-form-field>
+            <mat-label>Número de baños</mat-label>
+            <input matInput placeholder="Número de baños" formControlName="bathrooms" required />
+          </mat-form-field>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <mat-form-field>
+            <mat-label>Número de cuartos</mat-label>
+            <input matInput placeholder="Número de cuartos" formControlName="bedrooms" required />
+          </mat-form-field>
+        </div>
+      </div>
+      <!--Metros  -->
+      <div class="row">
+        <div class="col-md-4 col-sm-6">
+          <mat-form-field>
+            <mat-label>Superficie</mat-label>
+            <input matInput placeholder="Superficie" formControlName="metersSurface" required />
+          </mat-form-field>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <mat-form-field>
+            <mat-label>Metros construidos</mat-label>
+            <input matInput placeholder="Metros construidos" formControlName="metersBuilded" required />
+          </mat-form-field>
+        </div>
+      </div>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="thirdFormGroup" label="Dirección">
+    <form [formGroup]="thirdFormGroup">
+      <!--dirección  -->
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Dirección</mat-label>
+            <input matInput placeholder="Direción" formControlName="addres" required />
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- dirección pag -->
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Dirección corta</mat-label>
+            <input matInput placeholder="Direción corta" formControlName="pageAddress" required />
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- Estado/ciudad/colonia -->
+      <div class="row">
+        <div class="form-group col-md-4 col-sm-12 col-xl-4">
+          <label for="state" class="form-label">Estado:</label>
+          <select
+            class="form-select"
+            id="state"
+            placeholder="io"
+            [(ngModel)]="idStateSelected"
+            (change)="onChangeState()"
+            formControlName="idState"
+          >
+            <option [ngValue]="state.id" *ngFor="let state of lstStates">{{ state.description }}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4 col-sm-12 col-xl-4">
+          <label for="state" class="form-label">Ciudad:</label>
+          <select
+            class="form-select"
+            id="state"
+            placeholder="io"
+            [(ngModel)]="idCitySelected"
+            (change)="onChangeCity()"
+            formControlName="idCity"
+          >
+            <option [ngValue]="city.id" *ngFor="let city of lstCities">{{ city.description }}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4 col-sm-12 col-xl-4">
+          <label for="state" class="form-label">Ciudad:</label>
+          <select
+            class="form-select"
+            id="state"
+            placeholder="io"
+            [(ngModel)]="idColonySelected"
+            formControlName="idColony"
+          >
+            <option [ngValue]="colony.id" *ngFor="let colony of lstColonies">{{ colony.description }}</option>
+          </select>
+        </div>
+      </div>
+      <!-- zip -->
+      <div class="row mt-3">
+        <div class="col-md-3 col-sm-6">
+          <mat-form-field>
+            <mat-label>C.P.</mat-label>
+            <input matInput placeholder="Precio" formControlName="zip" required />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <mat-form-field>
+            <mat-label>Latitud</mat-label>
+            <input matInput placeholder="Latitud" formControlName="latitude" required />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <mat-form-field>
+            <mat-label>Longitud</mat-label>
+            <input matInput placeholder="Longitud" formControlName="longitude" required />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-stepper>

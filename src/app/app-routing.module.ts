@@ -7,6 +7,7 @@ import { ColoniesComponent } from './components/catalogs/colonies/colonies.compo
 import { CitiesComponent } from './components/catalogs/cities/cities.component';
 import { PropertyTypesComponent } from './components/catalogs/property-types/property-types.component';
 import { AmenitiesComponent } from './components/catalogs/amenities/amenities.component';
+import { PropertyComponent } from './components/property/property.component';
 
 const routes: Routes = [
   Shell.childRoutes([{ path: 'about', loadChildren: () => import('./about/about.module').then((m) => m.AboutModule) }]),
@@ -16,6 +17,14 @@ const routes: Routes = [
       path: 'MyProperties',
       component: MyPropertiesComponent,
       data: { title: marker('Lista de propiedades') },
+    },
+  ]),
+
+  Shell.childRoutes([
+    {
+      path: 'add',
+      component: PropertyComponent,
+      data: { title: marker('Nueva propiedad') },
     },
   ]),
 

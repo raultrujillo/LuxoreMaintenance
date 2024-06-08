@@ -10,6 +10,7 @@ import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PropertyComponent } from '@app/components/property/property.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     CommonModule,
   ],
-  declarations: [LoaderComponent, MyPropertiesComponent, ConfirmDialogComponent, AlertDialogComponent],
+  declarations: [
+    LoaderComponent,
+    MyPropertiesComponent,
+    ConfirmDialogComponent,
+    AlertDialogComponent,
+    PropertyComponent,
+  ],
   exports: [LoaderComponent, FormsModule, ReactiveFormsModule, MaterialModule, RouterModule, CommonModule],
 })
 export class SharedModule {}
