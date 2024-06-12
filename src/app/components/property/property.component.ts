@@ -1,6 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { StepperOrientation } from '@angular/cdk/stepper';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Catalog, CityRequest, ColonyRequest } from '@app/models/catalog.model';
@@ -9,6 +9,9 @@ import { CatalogService } from '@app/services/catalog.service';
 import { PropertyService } from '@app/services/property-service';
 import { ToastService } from '@app/services/toast.service';
 import { Observable, Subscription, first, map } from 'rxjs';
+import { InputFileComponent } from '../input-file/components/input-file/input-file.component';
+import { ImagesModel } from '@app/models/images.model';
+import { InputFile } from '../input-file/interfaces/input-file';
 
 @Component({
   selector: 'app-property',
@@ -77,6 +80,12 @@ export class PropertyComponent implements OnInit, OnDestroy {
 
   propertyId: number = 0;
   private sub: any;
+
+  //images
+  images: InputFile[] = new Array<InputFile>();
+  mainImage: ImagesModel[] = new Array<ImagesModel>();
+
+  @ViewChild('imageComp') imageComponent: InputFileComponent | undefined;
 
   stepperOrientation: Observable<StepperOrientation>;
   constructor(
@@ -258,7 +267,6 @@ export class PropertyComponent implements OnInit, OnDestroy {
     );
   }
   updateProperty() {
-    debugger;
     if (this.thirdFormGroup.invalid) {
       return;
     }
@@ -297,9 +305,42 @@ export class PropertyComponent implements OnInit, OnDestroy {
             this.idColonySelected = res.idState.id;
             this.isLinear = false;
             this.isUpdate = true;
+
+            if (res.images.length > 0) {
+              res.images.forEach((x) => {
+                this.images.push({ id: x.id, imagePath: x.imagePath, preview: x.imagePath, main: false });
+              });
+
+              this.imageComponent?.setImages(this.images);
+            }
           },
           error: (e) => {},
         })
     );
+  }
+  //images
+
+  saveImages() {
+    // this.images =  new Array<ImagesModel>();
+    // var img =  new ImagesModel()
+    // if(this.childFRList?.files !== undefined && this.childFRList?.files.length > 0){
+    //   this.childFRList?.files.forEach( x=> {
+    //     debugger
+    //      if(x.preview !== ''){
+    //       img.file = x.preview;
+    //       img.main =  false
+    //      }
+    //    })
+    //  this.subscriptions.add( this._PropertyService
+    //   .updatImages(this.property.id,img)
+    //   .pipe(first())
+    //   .subscribe({
+    //     next: (res) => {
+    //       this.property.id = +res.defaultMessage;
+    //       this.toast.succes('Se ha guardado la informació. Favor de subir las imagenes correspondientes.');
+    //     },
+    //     error: (e) => {},
+    //   }))
+    // }
   }
 }

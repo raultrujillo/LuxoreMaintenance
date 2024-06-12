@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CatalogResponse } from '@app/models/catalog.model';
 import { Property, PropertyResponse } from '@app/models/property.model';
 import { ResponseModel } from '@app/models/response.model';
 import { environment } from '@env/environment';
-import { Observable, map } from 'rxjs';
+import { Observable, map, retry } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -43,5 +43,27 @@ export class PropertyService {
         return response != null ? response : new Property();
       })
     );
+  }
+
+  //images
+  updatImages(propertyId: number, obj: any): Observable<ResponseModel> {
+    return this.http.put<ResponseModel>(`${this.baseUrl}/images/${propertyId}`, obj).pipe(
+      map((response: ResponseModel) => {
+        return response != null ? response : new ResponseModel();
+      })
+    );
+  }
+
+  deleteImage(propertyId: number, obj: any) {
+    const url = `${this.baseUrl}/images/${propertyId}`;
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: obj,
+    };
+
+    return this.http.delete(url, options).pipe();
   }
 }

@@ -373,14 +373,32 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Images</ng-template>
-      <div fxFlex="100" class="step-section pb-2">
-                          <p class="mb-0"><span class="uppercase fw-500">Gallery</span><span class="text-muted mx-3">(max 8 images)</span></p>  
-                          <input-file formControlName="gallery" [fileLimit]="8" fileAccept="image/*"></input-file>  
-                      </div> 
+    <div fxFlex="100" class="step-section pb-2">
+      <p class="mb-0"><span class="uppercase fw-500">Imagen principal</span></p>
+      <input-file
+        #mainImageComp
+        formControlName="gallery"
+        [isMainImage]="true"
+        [fileLimit]="1"
+        fileAccept="image/*"
+        [propertyId]="property.id"
+      ></input-file>
+    </div>
+    <div fxFlex="100" class="step-section pb-2">
+      <p class="mb-0">
+        <span class="uppercase fw-500">Galeria</span><span class="text-muted mx-3">(max 8 imagenes)</span>
+      </p>
+      <input-file
+        #imageComp
+        formControlName="gallery"
+        [isMainImage]="false"
+        [fileLimit]="8"
+        fileAccept="image/*"
+        [propertyId]="property.id"
+      ></input-file>
+    </div>
     <div>
       <button mat-button matStepperPrevious class="btn btn-secondary">Regresar</button>
-      <button *ngIf="!isUpdate" mat-button class="btn btn-outline-primary">Guardar</button>
-      <button *ngIf="isUpdate" mat-button class="btn btn-outline-primary">Actualizar</button>
     </div>
   </mat-step>
 </mat-stepper>

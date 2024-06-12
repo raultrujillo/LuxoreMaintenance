@@ -1,5 +1,6 @@
 import { Catalog } from './catalog.model';
 import { Cities } from './cities.model';
+import { ImagesModel } from './images.model';
 import { States } from './states.model';
 
 export class PropertyRequest {
@@ -49,6 +50,7 @@ export class Property {
     public idState: States = new States(),
     public idColony: Catalog = new Catalog(),
     public idCategory: Catalog = new Catalog(),
-    public amenities: Catalog[] = new Array<Catalog>()
+    public amenities: Catalog[] = new Array<Catalog>(),
+    public images: ImagesModel[] = new Array<ImagesModel>()
   ) {}
 }

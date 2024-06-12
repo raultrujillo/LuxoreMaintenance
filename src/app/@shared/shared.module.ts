@@ -11,6 +11,10 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PropertyComponent } from '@app/components/property/property.component';
+import { InputFileConfig, InputFileModule } from '@app/components/input-file/input-file.module';
+const config: InputFileConfig = {
+  fileAccept: '*',
+};
 
 @NgModule({
   imports: [
@@ -22,6 +26,7 @@ import { PropertyComponent } from '@app/components/property/property.component';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    InputFileModule.forRoot(config),
   ],
   declarations: [
     LoaderComponent,

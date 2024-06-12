@@ -1,0 +1,170 @@
+@mixin input-file($height, $width, $padding) {
+  $mat-text: rgba(0, 0, 0, 0.54);
+
+  .input-file-container {
+    position: relative;
+
+    .files-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding-top: 1.25rem;
+    }
+
+    %common-container {
+      align-items: center;
+      display: flex;
+      height: $height;
+      justify-content: center;
+      width: $width;
+    }
+
+    .secondary-button {
+      width: $width;
+    }
+
+    .file-button {
+      @extend %common-container;
+
+      flex: 1;
+    }
+
+    .file-container {
+      @extend %common-container;
+
+      flex-direction: column;
+      margin-right: 1rem;
+      overflow: hidden;
+    }
+
+    .replace-button {
+      flex: 1;
+      width: $width;
+    }
+
+    .mat-button {
+      &:focus {
+        outline: 0;
+      }
+    }
+
+    .file-name {
+      width: calc(#{$width} - #{$padding});
+    }
+
+    .image-preview {
+      position: absolute;
+      height: $height;
+      object-fit: contain;
+      width: $width;
+    }
+    .deleteBtn {
+      width: auto;
+      background: aliceblue;
+    }
+
+    .input-icon {
+      font-size: calc(#{$width} / 4);
+      height: calc(#{$width} / 4);
+      width: calc(#{$width} / 4);
+    }
+
+    .form-link {
+      display: flex;
+      flex-direction: column;
+      width: $width;
+    }
+
+    .input-link {
+      width: $width;
+    }
+
+    .form-link-button {
+      display: flex;
+      flex-direction: row;
+
+      .mat-button {
+        min-width: calc(#{$width} / 2);
+        width: calc(#{$width} / 2);
+      }
+    }
+
+    .mat-orphan-label {
+      color: $mat-text;
+      display: block;
+      font-size: 1rem;
+      left: 0;
+      margin: 0;
+      position: absolute;
+      top: 0;
+      transform-origin: 0;
+      transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+      &.active {
+        transform: scale(0.75);
+      }
+    }
+  }
+
+  @keyframes bounceIn {
+    from,
+    20%,
+    40%,
+    60%,
+    80%,
+    to {
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+
+    0% {
+      opacity: 0;
+      transform: scale3d(0.3, 0.3, 0.3);
+    }
+
+    20% {
+      transform: scale3d(1.1, 1.1, 1.1);
+    }
+
+    40% {
+      transform: scale3d(0.9, 0.9, 0.9);
+    }
+
+    60% {
+      opacity: 1;
+      transform: scale3d(1.03, 1.03, 1.03);
+    }
+
+    80% {
+      transform: scale3d(0.97, 0.97, 0.97);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale3d(1, 1, 1);
+    }
+  }
+
+  .bounce-in {
+    animation-duration: 0.75s;
+    animation-name: bounceIn;
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 100%, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .slide-in-up {
+    animation-duration: 0.25s;
+    animation-name: slideInUp;
+  }
+}
+
+@include input-file(10rem, 10rem, 2.5rem);

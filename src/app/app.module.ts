@@ -15,8 +15,13 @@ import { HomeModule } from './home/home.module';
 import { ShellModule } from './shell/shell.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { CatalogModule } from './components/catalogs/catalogModule';
+
 import { ToastrModule } from 'ngx-toastr';
+import { InputFileConfig, InputFileModule } from './components/input-file/input-file.module';
+import { CatalogModule } from './components/catalogs/CatalogModule';
+const config: InputFileConfig = {
+  fileAccept: '*',
+};
 
 @NgModule({
   imports: [
@@ -36,6 +41,7 @@ import { ToastrModule } from 'ngx-toastr';
     HomeModule,
     CatalogModule,
     ToastrModule.forRoot(), // ToastrModule added
+    InputFileModule.forRoot(config),
   ],
   declarations: [AppComponent],
   providers: [
