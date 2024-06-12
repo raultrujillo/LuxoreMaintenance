@@ -11,7 +11,7 @@
           <mat-checkbox formControlName="sold" [(ngModel)]="property.sold">¿Vendida?</mat-checkbox>
         </div>
         <div class="col-md-6 col-sm-6">
-          <mat-checkbox formControlName="sold" [(ngModel)]="property.enable">¿Disponible?</mat-checkbox>
+          <mat-checkbox formControlName="enable" [(ngModel)]="property.enable">¿Disponible?</mat-checkbox>
         </div>
       </div>
       <!-- titulo y description -->
@@ -373,7 +373,10 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Images</ng-template>
-    <p>You are now done.</p>
+      <div fxFlex="100" class="step-section pb-2">
+                          <p class="mb-0"><span class="uppercase fw-500">Gallery</span><span class="text-muted mx-3">(max 8 images)</span></p>  
+                          <input-file formControlName="gallery" [fileLimit]="8" fileAccept="image/*"></input-file>  
+                      </div> 
     <div>
       <button mat-button matStepperPrevious class="btn btn-secondary">Regresar</button>
       <button *ngIf="!isUpdate" mat-button class="btn btn-outline-primary">Guardar</button>
