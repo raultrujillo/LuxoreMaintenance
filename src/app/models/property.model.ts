@@ -1,3 +1,4 @@
+import { CurrencyPipe } from '@angular/common';
 import { Catalog } from './catalog.model';
 import { Cities } from './cities.model';
 import { ImagesModel } from './images.model';

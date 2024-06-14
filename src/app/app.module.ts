@@ -19,6 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ToastrModule } from 'ngx-toastr';
 import { InputFileConfig, InputFileModule } from './components/input-file/input-file.module';
 import { CatalogModule } from './components/catalogs/CatalogModule';
+import { CurrencyPipe } from '@angular/common';
 const config: InputFileConfig = {
   fileAccept: '*',
 };
@@ -59,6 +60,7 @@ const config: InputFileConfig = {
       provide: RouteReuseStrategy,
       useClass: RouteReusableStrategy,
     },
+    CurrencyPipe,
   ],
   bootstrap: [AppComponent],
 })

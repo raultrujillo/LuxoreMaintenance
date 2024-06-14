@@ -12,6 +12,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PropertyComponent } from '@app/components/property/property.component';
 import { InputFileConfig, InputFileModule } from '@app/components/input-file/input-file.module';
+import { FormatNumberDirective } from '@app/components/utils/directives/formart.directive';
 const config: InputFileConfig = {
   fileAccept: '*',
 };
@@ -34,6 +35,7 @@ const config: InputFileConfig = {
     ConfirmDialogComponent,
     AlertDialogComponent,
     PropertyComponent,
+    FormatNumberDirective,
   ],
   exports: [LoaderComponent, FormsModule, ReactiveFormsModule, MaterialModule, RouterModule, CommonModule],
 })

@@ -10,9 +10,12 @@ import { AmenitiesComponent } from './components/catalogs/amenities/amenities.co
 import { PropertyComponent } from './components/property/property.component';
 
 const routes: Routes = [
-  Shell.childRoutes([{ path: 'about', loadChildren: () => import('./about/about.module').then((m) => m.AboutModule) }]),
-
   Shell.childRoutes([
+    {
+      path: '',
+      redirectTo: 'MyProperties',
+      pathMatch: 'full',
+    },
     {
       path: 'MyProperties',
       component: MyPropertiesComponent,
@@ -65,6 +68,15 @@ const routes: Routes = [
       data: { title: marker('Catalogo de ciudades') },
     },
   ]),
+
+  Shell.childRoutes([
+    {
+      path: 'colonias2',
+      component: ColoniesComponent,
+      data: { title: marker('Catalogo de ciudades') },
+    },
+  ]),
+
   // Fallback when no prior route is matched
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

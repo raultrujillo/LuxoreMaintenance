@@ -92,6 +92,7 @@ export class MyPropertiesComponent implements OnInit, OnDestroy {
   }
 
   onChangeCategory() {
+    this.page = 0;
     this.totalPage = 5;
     this.paginator.pageIndex = 0;
     this.getProperties();
