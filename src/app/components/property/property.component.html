@@ -1,3 +1,8 @@
+<div class="text-end m-4">
+  <span>
+    <button mat-button (click)="updateCatalog()" class="btn btn-primary">Actualizar catalogos</button>
+  </span>
+</div>
 <mat-stepper [orientation]="(stepperOrientation | async)!" [linear]="isLinear" #stepper>
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
@@ -366,7 +371,6 @@
         <button *ngIf="!isUpdate" mat-button class="btn btn-primary" matStepperNext (click)="addProperty()">
           Guardar
         </button>
-        <button *ngIf="isUpdate" mat-button (click)="updateProperty()" class="btn btn-primary">Actualizar</button>
       </div>
     </form>
   </mat-step>
@@ -401,3 +405,6 @@
     </div>
   </mat-step>
 </mat-stepper>
+<div class="text-center mt-2">
+  <button *ngIf="isUpdate" mat-button (click)="updateProperty()" class="btn btn-primary">Actualizar</button>
+</div>

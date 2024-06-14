@@ -10,9 +10,7 @@ import { PropertyService } from '@app/services/property-service';
 import { ToastService } from '@app/services/toast.service';
 import { Observable, Subscription, first, map } from 'rxjs';
 import { InputFileComponent } from '../input-file/components/input-file/input-file.component';
-import { ImagesModel } from '@app/models/images.model';
 import { InputFile } from '../input-file/interfaces/input-file';
-import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-property',
@@ -96,27 +94,11 @@ export class PropertyComponent implements OnInit, OnDestroy {
     breakpointObserver: BreakpointObserver,
     private _PropertyService: PropertyService,
     private toast: ToastService,
-    private route: ActivatedRoute,
-    private currencyPipe: CurrencyPipe
+    private route: ActivatedRoute
   ) {
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));
-
-    // this.firstFormGroup.valueChanges.subscribe(
-    //   form =>{
-    //       if(form.price){
-    //         this.firstFormGroup.patchValue({
-    //           price: this.currencyPipe.transform(form.price.replace(/\D/g,'').replace(/^0+/,''), 'USD','symbol','1.0-0')
-    //         })
-    //       }
-    //       if(form.comercialValue){
-    //         this.firstFormGroup.patchValue({
-    //           comercialValue: this.currencyPipe.transform(form.comercialValue.replace(/\D/g,'').replace(/^0+/,''), 'USD','symbol','1.0-0')
-    //         })
-    //       }
-    //   }
-    // )
   }
 
   ngOnInit(): void {
@@ -141,6 +123,15 @@ export class PropertyComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
     this.sub.unsubscribe();
+  }
+
+  updateCatalog() {
+    this.getStates();
+    this.getCities();
+    this.getColonies();
+    this.getAmenities();
+    this.getCategories();
+    this.getPropertyTypes();
   }
 
   //catlaogs

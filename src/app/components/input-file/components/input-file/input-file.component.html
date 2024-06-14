@@ -53,7 +53,6 @@
     [accept]="fileAccept"
     hidden
     type="file"
-    [attr.multiple]="fileLimit > 1 ? true : null"
     #fileInput
     (change)="onSelectFile($any($event.target).files, selectButton)"
   />

@@ -1362,3 +1362,18 @@ label {
 .mat-mdc-form-field {
   margin-top: 16px;
 }
+
+//spinner
+.div-wait-spinner-full {
+  min-height: 100vh !important;
+  display: block !important;
+  background: rgba(0, 0, 0, 0.5) url("~assets/spinner2.webp") center center no-repeat !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+}

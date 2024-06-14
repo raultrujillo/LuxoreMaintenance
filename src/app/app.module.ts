@@ -20,6 +20,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { InputFileConfig, InputFileModule } from './components/input-file/input-file.module';
 import { CatalogModule } from './components/catalogs/CatalogModule';
 import { CurrencyPipe } from '@angular/common';
+import { SpinnerComponent } from './@shared/spinner/spinner.component';
+import { LoadingInterceptor } from './helpers/loading-interceptor';
 const config: InputFileConfig = {
   fileAccept: '*',
 };
@@ -60,7 +62,11 @@ const config: InputFileConfig = {
       provide: RouteReuseStrategy,
       useClass: RouteReusableStrategy,
     },
-    CurrencyPipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
