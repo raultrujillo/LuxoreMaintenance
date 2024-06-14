@@ -45,6 +45,7 @@ export class Property {
     public credit: string = '',
     public sold: boolean = false,
     public slugTitle: string = '',
+    public mainImage: string = '',
     public idPropertyType: Catalog = new Catalog(),
     public idCity: Cities = new Cities(),
     public idState: States = new States(),

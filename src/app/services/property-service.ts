@@ -66,4 +66,10 @@ export class PropertyService {
 
     return this.http.delete(url, options).pipe();
   }
+
+  deleteMainImage(propertyId: number) {
+    const url = `${this.baseUrl}/images/${propertyId}/main`;
+
+    return this.http.delete(url).pipe();
+  }
 }

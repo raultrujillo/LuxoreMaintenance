@@ -174,6 +174,7 @@ export class InputFileComponent implements ControlValueAccessor, OnInit {
           next: (res) => {
             console.log(res);
             this.files[this.files.length - 1].id = res.defaultMessage;
+            this.files[this.files.length - 1].main = this._isMainImage;
           },
           error: (e) => {},
         })
@@ -197,21 +198,38 @@ export class InputFileComponent implements ControlValueAccessor, OnInit {
   }
 
   public deleteImage(image: InputFile, index: number) {
-    var imageluxore = new ImageDeleteModel(image.id, image.imagePath);
-    this.subscriptions.add(
-      this._PropertyService
-        .deleteImage(this._propertyId, imageluxore)
-        .pipe(first())
-        .subscribe({
-          next: (res) => {
-            console.log(res);
-            const files = this.files.slice();
-            files.splice(index, 1);
-            this.writeValue(files);
-          },
-          error: (e) => {},
-        })
-    );
+    if (image.main) {
+      this.subscriptions.add(
+        this._PropertyService
+          .deleteMainImage(this._propertyId)
+          .pipe(first())
+          .subscribe({
+            next: (res) => {
+              console.log(res);
+              const files = this.files.slice();
+              files.splice(index, 1);
+              this.writeValue(files);
+            },
+            error: (e) => {},
+          })
+      );
+    } else {
+      var imageluxore = new ImageDeleteModel(image.id, image.imagePath);
+      this.subscriptions.add(
+        this._PropertyService
+          .deleteImage(this._propertyId, imageluxore)
+          .pipe(first())
+          .subscribe({
+            next: (res) => {
+              console.log(res);
+              const files = this.files.slice();
+              files.splice(index, 1);
+              this.writeValue(files);
+            },
+            error: (e) => {},
+          })
+      );
+    }
   }
 
   //end luxore

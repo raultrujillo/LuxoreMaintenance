@@ -83,9 +83,10 @@ export class PropertyComponent implements OnInit, OnDestroy {
 
   //images
   images: InputFile[] = new Array<InputFile>();
-  mainImage: ImagesModel[] = new Array<ImagesModel>();
+  mainImages: InputFile[] = new Array<InputFile>();
 
   @ViewChild('imageComp') imageComponent: InputFileComponent | undefined;
+  @ViewChild('imageMainComp') imageMainComponent: InputFileComponent | undefined;
 
   stepperOrientation: Observable<StepperOrientation>;
   constructor(
@@ -306,6 +307,7 @@ export class PropertyComponent implements OnInit, OnDestroy {
             this.isLinear = false;
             this.isUpdate = true;
 
+            //set all imges detail
             if (res.images.length > 0) {
               res.images.forEach((x) => {
                 this.images.push({ id: x.id, imagePath: x.imagePath, preview: x.imagePath, main: false });
@@ -313,6 +315,10 @@ export class PropertyComponent implements OnInit, OnDestroy {
 
               this.imageComponent?.setImages(this.images);
             }
+            //set main image
+            if (res.mainImage !== '')
+              this.mainImages.push({ id: 0, imagePath: res.mainImage, preview: res.mainImage, main: true });
+            this.imageMainComponent?.setImages(this.mainImages);
           },
           error: (e) => {},
         })
