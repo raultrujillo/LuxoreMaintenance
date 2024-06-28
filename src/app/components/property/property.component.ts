@@ -293,20 +293,20 @@ export class PropertyComponent implements OnInit, OnDestroy {
     this.property.amenities = this.lstAmenitiesSelected;
     this.property.updateOn = undefined;
 
-    // this.subscriptions.add(
-    //   this._PropertyService
-    //     .updateProperty(this.property)
-    //     .pipe(first())
-    //     .subscribe({
-    //       next: (res) => {
-    //         this.property.id = +res.defaultMessage;
-    //         this.toast.succes('Se ha guardado la informació. Favor de subir las imagenes correspondientes.');
-    //       },
-    //       error: (e) => {
-    //         this.toast.error('Error al actualizar.');
-    //       },
-    //     })
-    // );
+    this.subscriptions.add(
+      this._PropertyService
+        .updateProperty(this.property)
+        .pipe(first())
+        .subscribe({
+          next: (res) => {
+            this.property.id = +res.defaultMessage;
+            this.toast.succes('Se ha guardado la informació. Favor de subir las imagenes correspondientes.');
+          },
+          error: (e) => {
+            this.toast.error('Error al actualizar.');
+          },
+        })
+    );
   }
 
   getPropertyById() {

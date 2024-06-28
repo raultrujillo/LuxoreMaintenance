@@ -14,7 +14,7 @@ import { Subscription, first } from 'rxjs';
   styleUrls: ['./my-properties.component.scss'],
 })
 export class MyPropertiesComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['id', 'title', 'postedYear', 'price', 'actions'];
+  displayedColumns: string[] = ['id', 'description', 'addres', 'postedYear', 'price', 'actions'];
   dataSource: MatTableDataSource<Property> = new MatTableDataSource<Property>(new Array<Property>());
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
