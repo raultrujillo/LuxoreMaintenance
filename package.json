@@ -33,6 +33,7 @@
     "@angular/router": "~14.1.3",
     "@angular/service-worker": "~14.1.3",
     "@ng-bootstrap/ng-bootstrap": "^13.0.0",
+    "@ng-select/ng-select": "^9.1.0",
     "@ngx-translate/core": "^14.0.0",
     "@popperjs/core": "^2.10.2",
     "bootstrap": "^5.3.3",

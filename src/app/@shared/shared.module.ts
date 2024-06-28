@@ -13,7 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PropertyComponent } from '@app/components/property/property.component';
 import { InputFileConfig, InputFileModule } from '@app/components/input-file/input-file.module';
 import { FormatNumberDirective } from '@app/components/utils/directives/formart.directive';
-import { SpinnerComponent } from './spinner/spinner.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 const config: InputFileConfig = {
   fileAccept: '*',
 };
@@ -29,6 +29,7 @@ const config: InputFileConfig = {
     ReactiveFormsModule,
     CommonModule,
     InputFileModule.forRoot(config),
+    NgSelectModule,
   ],
   declarations: [
     LoaderComponent,

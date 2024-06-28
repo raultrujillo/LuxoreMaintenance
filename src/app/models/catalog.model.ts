@@ -7,7 +7,9 @@ export class Catalog {
     public postalCode: string = ''
   ) {}
 }
-
+export class CatalogAmenites {
+  constructor(public id: number = 0, public description: string = '') {}
+}
 export class CatalogResponse {
   constructor(public total: number = 0, public list: Catalog[] = new Array<Catalog>()) {}
 }

@@ -1,7 +1,7 @@
 <div class="text-end m-4">
-  <span>
+  <div>
     <button mat-button (click)="updateCatalog()" class="btn btn-primary">Actualizar catalogos</button>
-  </span>
+  </div>
 </div>
 <mat-stepper [orientation]="(stepperOrientation | async)!" [linear]="isLinear" #stepper>
   <mat-step [stepControl]="firstFormGroup">
@@ -232,8 +232,14 @@
       <div class="row">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Amenidades</mat-label>
-          <mat-select placeholder="Seleccione amenidades" formControlName="amenities" multiple>
-            <mat-option (onSelectionChange)="getValues($event)" *ngFor="let amenty of lstAmenities" [value]="amenty">
+          <mat-select
+            #mySelect
+            [compareWith]="compareWith"
+            placeholder="Seleccione amenidades"
+            multiple
+            [(value)]="lstAmenitiesSelected"
+          >
+            <mat-option *ngFor="let amenty of lstAmenities" [value]="amenty">
               {{ amenty.description }}
             </mat-option>
           </mat-select>

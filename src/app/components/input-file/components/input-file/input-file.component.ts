@@ -11,6 +11,8 @@ import { urlValidator } from '../../validators/url.validator';
 import { ImageDeleteModel, ImagesModel } from '@app/models/images.model';
 import { PropertyService } from '@app/services/property-service';
 import { first, Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '@app/@shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'input-file',
@@ -149,7 +151,8 @@ export class InputFileComponent implements ControlValueAccessor, OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private inputFileService: InputFileService,
-    private _PropertyService: PropertyService
+    private _PropertyService: PropertyService,
+    private dialog: MatDialog
   ) {}
 
   /**
@@ -173,7 +176,8 @@ export class InputFileComponent implements ControlValueAccessor, OnInit {
         .subscribe({
           next: (res) => {
             console.log(res);
-            this.files[this.files.length - 1].id = res.defaultMessage;
+            this.files[this.files.length - 1].id = res.status;
+            this.files[this.files.length - 1].imagePath = res.defaultMessage;
             this.files[this.files.length - 1].main = this._isMainImage;
           },
           error: (e) => {},
@@ -190,7 +194,8 @@ export class InputFileComponent implements ControlValueAccessor, OnInit {
         .subscribe({
           next: (res) => {
             console.log(res);
-            this.files[this.files.length - 1].id = res.defaultMessage;
+            this.files[this.files.length - 1].id = res.status;
+            this.files[this.files.length - 1].imagePath = res.defaultMessage;
           },
           error: (e) => {},
         })
@@ -198,38 +203,46 @@ export class InputFileComponent implements ControlValueAccessor, OnInit {
   }
 
   public deleteImage(image: InputFile, index: number) {
-    if (image.main) {
-      this.subscriptions.add(
-        this._PropertyService
-          .deleteMainImage(this._propertyId)
-          .pipe(first())
-          .subscribe({
-            next: (res) => {
-              console.log(res);
-              const files = this.files.slice();
-              files.splice(index, 1);
-              this.writeValue(files);
-            },
-            error: (e) => {},
-          })
-      );
-    } else {
-      var imageluxore = new ImageDeleteModel(image.id, image.imagePath);
-      this.subscriptions.add(
-        this._PropertyService
-          .deleteImage(this._propertyId, imageluxore)
-          .pipe(first())
-          .subscribe({
-            next: (res) => {
-              console.log(res);
-              const files = this.files.slice();
-              files.splice(index, 1);
-              this.writeValue(files);
-            },
-            error: (e) => {},
-          })
-      );
-    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '30%',
+      data: { title: 'Eliminar', message: '¿Está Seguro de eliminar la imagen?' },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        if (this._isMainImage) {
+          this.subscriptions.add(
+            this._PropertyService
+              .deleteMainImage(this._propertyId)
+              .pipe(first())
+              .subscribe({
+                next: (res) => {
+                  console.log(res);
+                  const files = this.files.slice();
+                  files.splice(index, 1);
+                  this.writeValue(files);
+                },
+                error: (e) => {},
+              })
+          );
+        } else {
+          var imageluxore = new ImageDeleteModel(image.id, image.imagePath);
+          this.subscriptions.add(
+            this._PropertyService
+              .deleteImage(this._propertyId, imageluxore)
+              .pipe(first())
+              .subscribe({
+                next: (res) => {
+                  console.log(res);
+                  const files = this.files.slice();
+                  files.splice(index, 1);
+                  this.writeValue(files);
+                },
+                error: (e) => {},
+              })
+          );
+        }
+      }
+    });
   }
 
   //end luxore

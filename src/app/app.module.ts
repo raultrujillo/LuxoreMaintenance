@@ -22,6 +22,7 @@ import { CatalogModule } from './components/catalogs/CatalogModule';
 import { CurrencyPipe } from '@angular/common';
 import { SpinnerComponent } from './@shared/spinner/spinner.component';
 import { LoadingInterceptor } from './helpers/loading-interceptor';
+import { NgSelectModule } from '@ng-select/ng-select';
 const config: InputFileConfig = {
   fileAccept: '*',
 };
@@ -30,6 +31,7 @@ const config: InputFileConfig = {
   imports: [
     BrowserModule,
     ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
+    NgSelectModule,
     FormsModule,
 
     HttpClientModule,

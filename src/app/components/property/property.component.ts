@@ -3,7 +3,7 @@ import { StepperOrientation } from '@angular/cdk/stepper';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Catalog, CityRequest, ColonyRequest } from '@app/models/catalog.model';
+import { Catalog, CatalogAmenites, CityRequest, ColonyRequest } from '@app/models/catalog.model';
 import { Property } from '@app/models/property.model';
 import { CatalogService } from '@app/services/catalog.service';
 import { PropertyService } from '@app/services/property-service';
@@ -66,8 +66,6 @@ export class PropertyComponent implements OnInit, OnDestroy {
   lstColonies: Catalog[] = new Array<Catalog>();
   lstPropertyTypes: Catalog[] = new Array<Catalog>();
   lstCategories: Catalog[] = new Array<Catalog>();
-  lstAmenities: Catalog[] = new Array<Catalog>();
-  lstAmenitiesSelected: Catalog[] = new Array<Catalog>();
 
   idStateSelected: number = 0;
   idCitySelected: number = 0;
@@ -87,6 +85,11 @@ export class PropertyComponent implements OnInit, OnDestroy {
   @ViewChild('imageComp') imageComponent: InputFileComponent | undefined;
   @ViewChild('imageMainComp') imageMainComponent: InputFileComponent | undefined;
 
+  //amendades
+
+  lstAmenities: CatalogAmenites[] = new Array<CatalogAmenites>();
+  lstAmenitiesSelected: CatalogAmenites[] = new Array<CatalogAmenites>();
+
   stepperOrientation: Observable<StepperOrientation>;
   constructor(
     private _formBuilder: FormBuilder,
@@ -103,7 +106,6 @@ export class PropertyComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getStates();
-
     this.getAmenities();
     this.getCategories();
     this.getPropertyTypes();
@@ -129,7 +131,7 @@ export class PropertyComponent implements OnInit, OnDestroy {
     this.getStates();
     this.getCities();
     this.getColonies();
-    this.getAmenities();
+    //this.getAmenities();
     this.getCategories();
     this.getPropertyTypes();
   }
@@ -275,7 +277,9 @@ export class PropertyComponent implements OnInit, OnDestroy {
             this.property.id = +res.defaultMessage;
             this.toast.succes('Se ha guardado la informació. Favor de subir las imagenes correspondientes.');
           },
-          error: (e) => {},
+          error: (e) => {
+            this.toast.error('Error al agregar.');
+          },
         })
     );
   }
@@ -289,18 +293,20 @@ export class PropertyComponent implements OnInit, OnDestroy {
     this.property.amenities = this.lstAmenitiesSelected;
     this.property.updateOn = undefined;
 
-    this.subscriptions.add(
-      this._PropertyService
-        .updateProperty(this.property)
-        .pipe(first())
-        .subscribe({
-          next: (res) => {
-            this.property.id = +res.defaultMessage;
-            this.toast.succes('Se ha guardado la informació. Favor de subir las imagenes correspondientes.');
-          },
-          error: (e) => {},
-        })
-    );
+    // this.subscriptions.add(
+    //   this._PropertyService
+    //     .updateProperty(this.property)
+    //     .pipe(first())
+    //     .subscribe({
+    //       next: (res) => {
+    //         this.property.id = +res.defaultMessage;
+    //         this.toast.succes('Se ha guardado la informació. Favor de subir las imagenes correspondientes.');
+    //       },
+    //       error: (e) => {
+    //         this.toast.error('Error al actualizar.');
+    //       },
+    //     })
+    // );
   }
 
   getPropertyById() {
@@ -311,6 +317,7 @@ export class PropertyComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (res) => {
             this.property = res;
+            debugger;
             this.idStateSelected = res.idState.id;
             this.getCities();
             this.idCitySelected = res.idState.id;
@@ -328,37 +335,36 @@ export class PropertyComponent implements OnInit, OnDestroy {
               this.imageComponent?.setImages(this.images);
             }
             //set main image
-            if (res.mainImage !== '')
+            if (res.mainImage !== '') {
               this.mainImages.push({ id: 0, imagePath: res.mainImage, preview: res.mainImage, main: true });
-            this.imageMainComponent?.setImages(this.mainImages);
+              this.imageMainComponent?.setImages(this.mainImages);
+            }
+
+            if (res.amenities !== undefined && res.amenities.length > 0) {
+              // var y =  new Array<CatalogAmenites>();
+              //  res.amenities.forEach((x) => {
+              //   y.push(new CatalogAmenites(x.id, x.description));
+              //  });
+
+              //this.lstAmenitiesSelected  = this.lstAmenities;
+              this.lstAmenitiesSelected = new Array<CatalogAmenites>();
+              // this.lstAmenitiesSelected.filter(x => { return x.id === 1 });
+
+              res.amenities.forEach((x) => {
+                this.lstAmenitiesSelected.push(new CatalogAmenites(x.id, x.description));
+              });
+            }
           },
           error: (e) => {},
         })
     );
   }
-  //images
 
-  saveImages() {
-    // this.images =  new Array<ImagesModel>();
-    // var img =  new ImagesModel()
-    // if(this.childFRList?.files !== undefined && this.childFRList?.files.length > 0){
-    //   this.childFRList?.files.forEach( x=> {
-    //     debugger
-    //      if(x.preview !== ''){
-    //       img.file = x.preview;
-    //       img.main =  false
-    //      }
-    //    })
-    //  this.subscriptions.add( this._PropertyService
-    //   .updatImages(this.property.id,img)
-    //   .pipe(first())
-    //   .subscribe({
-    //     next: (res) => {
-    //       this.property.id = +res.defaultMessage;
-    //       this.toast.succes('Se ha guardado la informació. Favor de subir las imagenes correspondientes.');
-    //     },
-    //     error: (e) => {},
-    //   }))
-    // }
+  compareWith(option1: any, option2: any) {
+    return option1.name === option2.name;
+  }
+
+  ngAfterViewInit() {
+    this.getAmenities();
   }
 }
