@@ -9,7 +9,7 @@ import { env } from './.env';
 export const environment = {
   production: true,
   version: env['npm_package_version'],
-  serverUrl: 'https://api.chucknorris.io',
+  serverUrl: 'https://luxorem-jvejfpv55q-uc.a.run.app/api',
   defaultLanguage: 'es-ES',
   supportedLanguages: ['es-ES'],
 };
