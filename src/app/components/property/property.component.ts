@@ -42,7 +42,7 @@ export class PropertyComponent implements OnInit, OnDestroy {
     metersSurface: ['', Validators.required],
     metersBuilded: ['', Validators.required],
 
-    amenities: [''],
+    amenities: [new Array<CatalogAmenites>()],
   });
 
   thirdFormGroup = this._formBuilder.group({
@@ -289,7 +289,7 @@ export class PropertyComponent implements OnInit, OnDestroy {
     }
     this.property.idCity.id = this.idCitySelected;
     this.property.idState.id = this.idStateSelected;
-    this.property.idColony.id = this.idCitySelected;
+    this.property.idColony.id = this.idColonySelected;
     this.property.amenities = this.lstAmenitiesSelected;
     this.property.updateOn = undefined;
 
@@ -341,18 +341,12 @@ export class PropertyComponent implements OnInit, OnDestroy {
             }
 
             if (res.amenities !== undefined && res.amenities.length > 0) {
-              // var y =  new Array<CatalogAmenites>();
-              //  res.amenities.forEach((x) => {
-              //   y.push(new CatalogAmenites(x.id, x.description));
-              //  });
-
-              //this.lstAmenitiesSelected  = this.lstAmenities;
               this.lstAmenitiesSelected = new Array<CatalogAmenites>();
-              // this.lstAmenitiesSelected.filter(x => { return x.id === 1 });
-
               res.amenities.forEach((x) => {
                 this.lstAmenitiesSelected.push(new CatalogAmenites(x.id, x.description));
               });
+
+              // this.secondFormGroup.controls.amenities.setValue(this.lstAmenitiesSelected);
             }
           },
           error: (e) => {},
@@ -361,7 +355,9 @@ export class PropertyComponent implements OnInit, OnDestroy {
   }
 
   compareWith(option1: any, option2: any) {
-    return option1.name === option2.name;
+    //return option1.name === option2.name;
+    if (option1.name == option2.name && option1.id == option2.id) return true;
+    else return false;
   }
 
   ngAfterViewInit() {

@@ -13,7 +13,7 @@ import { env } from './.env';
 export const environment = {
   production: false,
   version: env['npm_package_version'] + '-dev',
-  serverUrl: 'http://localhost:8080/api',
+  serverUrl: 'https://luxorem-jvejfpv55q-uc.a.run.app/api',
   url: '',
   defaultLanguage: 'es-ES',
   supportedLanguages: ['es-ES'],

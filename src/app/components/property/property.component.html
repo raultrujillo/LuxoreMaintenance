@@ -386,7 +386,6 @@
       <p class="mb-0"><span class="uppercase fw-500">Imagen principal</span></p>
       <input-file
         #imageMainComp
-        formControlName="gallery"
         [isMainImage]="true"
         [fileLimit]="1"
         fileAccept="image/*"
@@ -399,7 +398,6 @@
       </p>
       <input-file
         #imageComp
-        formControlName="gallery"
         [isMainImage]="false"
         [fileLimit]="8"
         fileAccept="image/*"
