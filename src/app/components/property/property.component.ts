@@ -320,9 +320,9 @@ export class PropertyComponent implements OnInit, OnDestroy {
             debugger;
             this.idStateSelected = res.idState.id;
             this.getCities();
-            this.idCitySelected = res.idState.id;
+            this.idCitySelected = res.idCity.id;
             this.getColonies();
-            this.idColonySelected = res.idState.id;
+            this.idColonySelected = res.idColony.id;
             this.isLinear = false;
             this.isUpdate = true;
 
