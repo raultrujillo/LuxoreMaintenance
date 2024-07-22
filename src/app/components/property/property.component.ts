@@ -155,6 +155,7 @@ export class PropertyComponent implements OnInit, OnDestroy {
     cityRequest.idState = this.idStateSelected;
     cityRequest.page = 0;
     cityRequest.totalPage = 1000;
+    this.idCitySelected = 0;
 
     this.subscriptions.add(
       this.catalogService
@@ -173,6 +174,7 @@ export class PropertyComponent implements OnInit, OnDestroy {
     colonyRequest.idCity = this.idCitySelected;
     colonyRequest.page = 0;
     colonyRequest.totalPage = 1000;
+    this.idColonySelected = 0;
 
     this.subscriptions.add(
       this.catalogService
@@ -287,6 +289,7 @@ export class PropertyComponent implements OnInit, OnDestroy {
     if (this.thirdFormGroup.invalid) {
       return;
     }
+    debugger;
     this.property.idCity.id = this.idCitySelected;
     this.property.idState.id = this.idStateSelected;
     this.property.idColony.id = this.idColonySelected;
