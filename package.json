@@ -13,9 +13,9 @@
     "translations:extract": "ngx-translate-extract --input ./src --output ./src/translations/template.json --format=json --clean --sort",
     "docs": "hads ./docs -o",
     "write:env": "ngx-scripts env npm_package_version",
-    "prettier": "prettier --write \"./src/**/*.{ts,js,html,scss}\"",
+    "prettier": "prettier --write \"./src/**/*.{ts,js,html,scss}\" || true",
     "prettier:check": "prettier --list-different \"./src/**/*.{ts,js,html,scss}\"",
-    "postinstall": "npm run prettier -s && husky install",
+    "postinstall": "if [ \"$SKIP_POSTINSTALL\" != \"1\" ]; then npm run prettier -s && husky install; fi",
     "generate": "ng generate"
   },
   "dependencies": {
@@ -79,7 +79,7 @@
     "karma-jasmine-html-reporter": "~2.0.0",
     "karma-junit-reporter": "^2.0.1",
     "postcss": "^8.4.5",
-    "prettier": "^2.2.1",
+    "prettier": "^2.8.8",
     "pretty-quick": "^3.1.0",
     "stylelint": "~14.11.0",
     "stylelint-config-prettier": "^9.0.3",
